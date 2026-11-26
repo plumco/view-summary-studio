@@ -1493,7 +1493,14 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
                 });
                 await fetchAdminDashboard();
               } else {
-                setDlgState(() => dialogError = '❌ गलत Admin Password');
+                String msg = '❌ गलत Admin Password';
+                try {
+                  final errData = jsonDecode(res.body);
+                  if (errData is Map && errData['detail'] != null) {
+                    msg = '❌ ${errData['detail']}';
+                  }
+                } catch (_) {}
+                setDlgState(() => dialogError = msg);
               }
             } catch (e) {
               setDlgState(() => dialogError = 'Server Error: $e');

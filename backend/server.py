@@ -2,11 +2,13 @@ import os
 import time
 import json
 import shutil
+import secrets
 import tempfile
+import threading
 import zipfile
 from datetime import datetime
 from typing import List, Optional
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException, BackgroundTasks, Header
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, BackgroundTasks, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -35,12 +37,60 @@ WORKSPACE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 RAW_BOQ_DIR = os.path.abspath(os.path.join(WORKSPACE_DIR, "data", "raw_boq"))
 KNOWLEDGE_PATH = os.path.abspath(os.path.join(WORKSPACE_DIR, "data", "trained_formats", "knowledge.json"))
 WEB_BUILD_DIR = os.path.abspath(os.path.join(WORKSPACE_DIR, "huliot_flutter_app", "build", "web"))
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "ADMIN123")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+MAX_ADMIN_ATTEMPTS = 5
+ADMIN_LOCKOUT_SECONDS = 15 * 60  # 15 minutes
+_ADMIN_LOCK = threading.Lock()
+_ADMIN_ATTEMPTS = {}  # {ip: {"count": int, "locked_until": float}}
 
 
-def _verify_admin(x_admin_password: Optional[str]):
-    if x_admin_password != ADMIN_PASSWORD:
-        raise HTTPException(status_code=401, detail="Invalid Admin Password")
+def _get_client_ip(request: Optional[Request]) -> str:
+    if request is None:
+        return "local"
+    xff = request.headers.get("x-forwarded-for")
+    if xff:
+        return xff.split(",")[0].strip()
+    return request.client.host if request.client else "local"
+
+
+def _verify_admin(password: Optional[str], request: Optional[Request] = None):
+    if not ADMIN_PASSWORD:
+        raise HTTPException(
+            status_code=503,
+            detail="ADMIN_PASSWORD environment variable is not configured on the server.",
+        )
+    ip = _get_client_ip(request)
+    now = time.time()
+    with _ADMIN_LOCK:
+        rec = _ADMIN_ATTEMPTS.get(ip, {"count": 0, "locked_until": 0.0})
+        if rec["locked_until"] > now:
+            rem_sec = int(rec["locked_until"] - now)
+            rem_min = max(1, (rem_sec + 59) // 60)
+            raise HTTPException(
+                status_code=429,
+                detail=f"5 बार गलत Password डालने के कारण 15 मिनट के लिए Lock कर दिया गया है ({rem_min} मिनट बाकी)।",
+            )
+
+        is_valid = bool(password) and secrets.compare_digest(password, ADMIN_PASSWORD)
+        if not is_valid:
+            rec["count"] = rec.get("count", 0) + 1
+            if rec["count"] >= MAX_ADMIN_ATTEMPTS:
+                rec["locked_until"] = now + ADMIN_LOCKOUT_SECONDS
+                rec["count"] = 0
+                _ADMIN_ATTEMPTS[ip] = rec
+                raise HTTPException(
+                    status_code=429,
+                    detail="5 बार गलत Password डालने के कारण 15 मिनट के लिए Lock कर दिया गया है।",
+                )
+            left = MAX_ADMIN_ATTEMPTS - rec["count"]
+            _ADMIN_ATTEMPTS[ip] = rec
+            raise HTTPException(
+                status_code=401,
+                detail=f"गलत Admin Password (बाकी प्रयास: {left})",
+            )
+
+        # Valid password -> reset attempts
+        _ADMIN_ATTEMPTS.pop(ip, None)
 
 
 @app.get("/api/status")
@@ -429,16 +479,16 @@ def scan_workspace_folder():
 
 
 @app.post("/api/admin/login")
-async def admin_login(password: str = Form(...)):
-    """Validates Admin password."""
-    _verify_admin(password)
+async def admin_login(request: Request, password: str = Form(...)):
+    """Validates Admin password with 5-attempt / 15-minute lockout protection."""
+    _verify_admin(password, request)
     return {"status": "ok", "role": "admin"}
 
 
 @app.get("/api/admin/dashboard")
-def admin_dashboard(x_admin_password: Optional[str] = Header(default=None)):
+def admin_dashboard(request: Request, x_admin_password: Optional[str] = Header(default=None)):
     """Returns Admin Dashboard metrics from knowledge.json."""
-    _verify_admin(x_admin_password)
+    _verify_admin(x_admin_password, request)
     db = huliot_core.load_knowledge_db(KNOWLEDGE_PATH)
     projects = db.get("learned_projects", [])
     today_str = datetime.now().strftime("%Y-%m-%d")
@@ -473,9 +523,9 @@ def admin_dashboard(x_admin_password: Optional[str] = Header(default=None)):
 
 
 @app.get("/api/admin/download-knowledge")
-def admin_download_knowledge(x_admin_password: Optional[str] = Header(default=None)):
+def admin_download_knowledge(request: Request, x_admin_password: Optional[str] = Header(default=None)):
     """Allows Admin to download a backup of knowledge.json."""
-    _verify_admin(x_admin_password)
+    _verify_admin(x_admin_password, request)
     if not os.path.exists(KNOWLEDGE_PATH):
         raise HTTPException(status_code=404, detail="knowledge.json not found")
     return FileResponse(
