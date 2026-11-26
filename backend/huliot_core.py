@@ -1755,9 +1755,21 @@ def train_from_workbook(wb_path, knowledge_db_path=None, original_filename=None)
     with open(knowledge_db_path, "w", encoding="utf-8") as f:
         json.dump(db, f, indent=2, ensure_ascii=False)
 
+    # Lesson 7: Auto-Backup on every new format train
+    backup_dir = os.path.dirname(os.path.abspath(knowledge_db_path))
+    os.makedirs(backup_dir, exist_ok=True)
+    backup_filename = f"knowledge_backup_auto_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.json"
+    backup_path = os.path.join(backup_dir, backup_filename)
+    try:
+        with open(backup_path, "w", encoding="utf-8") as bf:
+            json.dump(db, bf, indent=2, ensure_ascii=False)
+    except Exception:
+        backup_path = None
+
     return {
         "status": "success",
         "training_type": entry["training_type"],
+        "auto_backup_file": backup_path,
         "warnings": warnings,
         "learned": entry
     }

@@ -5,6 +5,7 @@ data/raw_boq/*.xlsx
 temp_*.xlsx
 tmp_*.xlsx
 test_reg_*.xlsx
+data/trained_formats/knowledge_backup_auto_*.json
 
 # Python cache
 backend/__pycache__/

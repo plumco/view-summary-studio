@@ -93,6 +93,19 @@ def _verify_admin(password: Optional[str], request: Optional[Request] = None):
         _ADMIN_ATTEMPTS.pop(ip, None)
 
 
+@app.get("/health")
+def health_check():
+    """Health check endpoint reporting app live status and total trained formats."""
+    db = huliot_core.load_knowledge_db(KNOWLEDGE_PATH)
+    total_formats = len(db.get("learned_projects", []))
+    return {
+        "status": "ok",
+        "message": "VIEW SUMMARY STUDIO App Live hai",
+        "total_formats": total_formats,
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+    }
+
+
 @app.get("/api/status")
 def get_status():
     knowledge_count = 0
