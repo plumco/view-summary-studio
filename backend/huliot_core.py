@@ -1826,11 +1826,11 @@ def verify_generated_summary(output_path):
 def learn_from_generation(generated_path, knowledge_db_path=None, original_filename=None):
     """
     Auto-Learn on Generate: Persists user-confirmed discounts, quantities, and generated formulas
-    from a newly generated Summary Sheet into knowledge.json as 'generated_summary'.
+    from a newly generated Summary Sheet into knowledge.json, keeping raw input files tagged as 'raw_layout'.
     """
     return train_from_workbook(
         generated_path,
         knowledge_db_path=knowledge_db_path,
         original_filename=original_filename,
-        training_type_override="generated_summary",
+        training_type_override="raw_layout",
     )

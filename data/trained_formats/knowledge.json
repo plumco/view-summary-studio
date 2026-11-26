@@ -600,8 +600,8 @@
       ]
     },
     {
-      "training_type": "full_summary",
-      "summary_sheet_name": "Summary Sheet",
+      "training_type": "raw_layout",
+      "summary_sheet_name": null,
       "project_title": "Huliot Summary Sheet - Aster 108, Punawale C (2 Towers)",
       "filename": "Huliot BOQ Aster 108 Punawale Tower C_17.1.26_22.1.26.xlsx",
       "archetype": "multi_sheet_towers",
@@ -686,7 +686,6 @@
         "kitchens": 84
       },
       "sheetnames": [
-        "Summary Sheet",
         "Typical Floor Tower C ",
         "Diversion BOQ  Tower C ",
         "Commercial Area Toilets",
@@ -1190,8 +1189,8 @@
       "trained_at": "2026-11-26T21:18:25"
     },
     {
-      "training_type": "full_summary",
-      "summary_sheet_name": "Summary Sheet",
+      "training_type": "raw_layout",
+      "summary_sheet_name": null,
       "project_title": "Huliot Summary Sheet - Kingdome 57 Wakad project",
       "filename": "Huliot BOQ Kingdom 57 28.06.2025 25.08.2025.xlsx",
       "archetype": "combined",
@@ -1273,7 +1272,6 @@
         "kitchens": 250
       },
       "sheetnames": [
-        "Summary Sheet",
         "Typical Floor BOQ ",
         "Diversion BOQ ",
         "Design Sheet Typical Floor (V)",
@@ -1281,8 +1279,8 @@
       ]
     },
     {
-      "training_type": "full_summary",
-      "summary_sheet_name": "Summary Sheet",
+      "training_type": "raw_layout",
+      "summary_sheet_name": null,
       "project_title": "Huliot Summary Sheet - Satva Commercial Project",
       "filename": "Huliot BOQ Satva Commercial STD Length 14.10.2025, 11.11.2025.xlsx",
       "archetype": "combined",
@@ -1355,7 +1353,6 @@
         "kitchens": "No of Kitchens"
       },
       "sheetnames": [
-        "Summary Sheet",
         "Typical Floor BOQ ",
         "Diversion BOQ ",
         "Rain water BOQ",
@@ -1617,8 +1614,8 @@
       "trained_at": "2026-11-26T21:18:31"
     },
     {
-      "training_type": "full_summary",
-      "summary_sheet_name": "Summary Sheet",
+      "training_type": "raw_layout",
+      "summary_sheet_name": null,
       "project_title": "Huliot Summary Sheet - RSV CANTEEN",
       "filename": "Huliot BOQ RSV CANTEEN 26.08.2025.xlsx",
       "archetype": "combined",
@@ -1694,13 +1691,12 @@
         "kitchens": 28
       },
       "sheetnames": [
-        "Summary Sheet",
         "Typical Floor BOQ "
       ]
     },
     {
-      "training_type": "generated_summary",
-      "summary_sheet_name": "Summary Sheet",
+      "training_type": "raw_layout",
+      "summary_sheet_name": null,
       "project_title": "Huliot Summary Sheet - Proposed Residential project (Vimannagar)",
       "filename": "Huliot Working Drainage BOQ-Prasun Home Pune -22.01.2026_UPDATED_2026.xlsx",
       "archetype": "combined",
@@ -1783,7 +1779,6 @@
         "kitchens": 12
       },
       "sheetnames": [
-        "Summary Sheet",
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor (V)"
       ],
