@@ -13,6 +13,9 @@
       ],
       "has_diversion": false,
       "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -82,7 +85,8 @@
         "Typical Floor BOQ  (T)",
         "Typical Floor BOQ ",
         "Summary Sheet"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:27"
     },
     {
       "training_type": "full_summary",
@@ -94,6 +98,9 @@
       "tower_names": [],
       "has_diversion": true,
       "diversion_sheet_count": 1,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "Typical Floor + Diversion",
@@ -138,7 +145,8 @@
         "Summary Sheet",
         "Typical Floor BOQ G to 7",
         "Diversion BOQ 4 Floor "
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:28"
     },
     {
       "training_type": "full_summary",
@@ -150,6 +158,9 @@
       "tower_names": [],
       "has_diversion": false,
       "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -247,7 +258,8 @@
         "Typical Floor BOQ  (T)",
         "Summary Sheet",
         "Typical Floor BOQ "
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:28"
     },
     {
       "training_type": "full_summary",
@@ -259,6 +271,9 @@
       "tower_names": [],
       "has_diversion": false,
       "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "Typical Floor",
@@ -308,7 +323,8 @@
         "Summary Sheet",
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor (V)"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:28"
     },
     {
       "training_type": "full_summary",
@@ -320,6 +336,9 @@
       "tower_names": [],
       "has_diversion": false,
       "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -394,7 +413,8 @@
         "Summary Sheet",
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor (V)"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:28"
     },
     {
       "training_type": "full_summary",
@@ -406,6 +426,9 @@
       "tower_names": [],
       "has_diversion": true,
       "diversion_sheet_count": 1,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -484,7 +507,8 @@
         "Diversion BOQ ",
         "Design Sheet Typical Floor (V)",
         "Design Sheet Diversion (Hori.) "
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:29"
     },
     {
       "training_type": "raw_layout",
@@ -498,6 +522,8 @@
       "has_diversion": false,
       "diversion_sheet_count": 0,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -521,7 +547,8 @@
       "sheetnames": [
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:24"
     },
     {
       "training_type": "raw_layout",
@@ -956,6 +983,8 @@
       "has_diversion": true,
       "diversion_sheet_count": 1,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -981,7 +1010,8 @@
         "Diversion BOQ  Tower A",
         "Commercial Area Toilets A",
         "Design Sheet Typical Floor (V)"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:23"
     },
     {
       "training_type": "raw_layout",
@@ -995,6 +1025,8 @@
       "has_diversion": true,
       "diversion_sheet_count": 1,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -1011,7 +1043,7 @@
       ],
       "quantities": {
         "toilets": 500,
-        "kitchens": 250
+        "kitchens": 0
       },
       "floors_count": 20,
       "baseline_discount": 0.35,
@@ -1020,7 +1052,8 @@
         "Diversion BOQ ",
         "Design Sheet Typical Floor (V)",
         "Design Sheet Diversion (Hori.) "
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:22"
     },
     {
       "training_type": "raw_layout",
@@ -1035,6 +1068,8 @@
       "has_diversion": true,
       "diversion_sheet_count": 1,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -1060,7 +1095,8 @@
         "Diversion BOQ Tower B",
         "Commercial Area Toilets B",
         "Design Sheet Typical Floor (V)"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:23"
     },
     {
       "training_type": "raw_layout",
@@ -1077,6 +1113,8 @@
       "has_diversion": false,
       "diversion_sheet_count": 0,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -1100,7 +1138,8 @@
       "sheetnames": [
         "Typical Floor BOQ ",
         "FLAT MATRIX"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:24"
     },
     {
       "training_type": "raw_layout",
@@ -1116,6 +1155,8 @@
       "has_diversion": true,
       "diversion_sheet_count": 1,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -1131,8 +1172,8 @@
         }
       ],
       "quantities": {
-        "toilets": 2610,
-        "kitchens": 828
+        "toilets": 1409,
+        "kitchens": 461
       },
       "floors_count": 18,
       "baseline_discount": 0.35,
@@ -1145,7 +1186,8 @@
         "Design Sheet Ground Floor",
         "Design Sheet Diversion (Hori.) ",
         "Sheet"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:25"
     },
     {
       "training_type": "full_summary",
@@ -1339,6 +1381,8 @@
       "has_diversion": false,
       "diversion_sheet_count": 0,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -1368,7 +1412,8 @@
         "Tower 6",
         "Tower 7",
         "Design Sheet Typical Floor (V)"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:30"
     },
     {
       "training_type": "raw_layout",
@@ -1382,6 +1427,8 @@
       "has_diversion": false,
       "diversion_sheet_count": 0,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -1405,7 +1452,8 @@
       "sheetnames": [
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor (V)"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:31"
     },
     {
       "training_type": "raw_layout",
@@ -1423,6 +1471,8 @@
       "has_diversion": false,
       "diversion_sheet_count": 0,
       "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -1450,7 +1500,8 @@
         "T5",
         "T6",
         "Design Sheet Typical Floor (V)"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:31"
     },
     {
       "training_type": "full_summary",
@@ -1467,6 +1518,9 @@
       ],
       "has_diversion": false,
       "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
@@ -1535,7 +1589,8 @@
         "Summary Sheet",
         "Typical Floor BOQ ",
         "FLAT MATRIX"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:31"
     },
     {
       "training_type": "full_summary",
@@ -1547,6 +1602,9 @@
       "tower_names": [],
       "has_diversion": false,
       "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [],
       "discounts": {},
       "quantities": {
@@ -1555,7 +1613,8 @@
       },
       "sheetnames": [
         "Summary Sheet"
-      ]
+      ],
+      "trained_at": "2026-11-26T21:18:31"
     },
     {
       "training_type": "full_summary",
@@ -1638,9 +1697,100 @@
         "Summary Sheet",
         "Typical Floor BOQ "
       ]
+    },
+    {
+      "training_type": "full_summary",
+      "summary_sheet_name": "Summary Sheet",
+      "project_title": "Huliot Summary Sheet - Proposed Residential project (Vimannagar)",
+      "filename": "Huliot Working Drainage BOQ-Prasun Home Pune -22.01.2026_UPDATED_2026.xlsx",
+      "archetype": "combined",
+      "tower_count": 3,
+      "tower_names": [
+        "Tower-1",
+        "Tower-2",
+        "Tower-3"
+      ],
+      "has_diversion": false,
+      "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
+      "options": [
+        {
+          "option": "HT Pro",
+          "formulas": {
+            "E": "='Typical Floor BOQ '!$CL$66",
+            "F": "=E5/$D$18",
+            "G": "='Typical Floor BOQ '!$CL$67",
+            "H": "=G5/$D$19",
+            "I": "=E5+G5",
+            "J": "=I5/$D$20",
+            "K": "=I5/$D$18",
+            "L": "=I5/$D$19"
+          }
+        },
+        {
+          "option": "Hybrid",
+          "formulas": {
+            "E": "='Typical Floor BOQ '!$CS$66",
+            "F": "=E6/$D$18",
+            "G": "='Typical Floor BOQ '!$CS$67",
+            "H": "=G6/$D$19",
+            "I": "=E6+G6",
+            "J": "=I6/$D$20",
+            "K": "=I6/$D$18",
+            "L": "=I6/$D$19"
+          }
+        },
+        {
+          "option": "Ultra Silent",
+          "formulas": {
+            "E": "='Typical Floor BOQ '!$CE$66",
+            "F": "=E7/$D$18",
+            "G": "='Typical Floor BOQ '!$CE$67",
+            "H": "=G7/$D$19",
+            "I": "=E7+G7",
+            "J": "=I7/$D$20",
+            "K": "=I7/$D$18",
+            "L": "=I7/$D$19"
+          }
+        }
+      ],
+      "discounts": {
+        "P": {
+          "name": "Pipe",
+          "discount": 0.35
+        },
+        "F": {
+          "name": "Fittings",
+          "discount": 0.35
+        },
+        "M": {
+          "name": "MFT",
+          "discount": 0.35
+        },
+        "L": {
+          "name": "Lubricant",
+          "discount": 0.35
+        },
+        "C": {
+          "name": "Clamps",
+          "discount": 0.35
+        }
+      },
+      "quantities": {
+        "toilets": 61,
+        "kitchens": 12
+      },
+      "sheetnames": [
+        "Summary Sheet",
+        "Typical Floor BOQ ",
+        "Design Sheet Typical Floor (V)"
+      ],
+      "trained_at": "2026-11-26T21:19:15"
     }
   ],
-  "summary_count": 25,
+  "summary_count": 26,
   "domain_rules": {
     "inspection_pipe_is_fitting": true,
     "rule_explanation": "Huliot DIA.110mm / 75mm / 125mm Inspection Pipe is a FITTING (F), NOT a pipe (P). It receives the Fittings discount (=)."

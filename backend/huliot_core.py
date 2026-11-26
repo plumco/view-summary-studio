@@ -617,8 +617,8 @@ def analyze_workbook(wb_path, knowledge_db_path=None, original_filename=None):
         knowledge_match = True
         knowledge_source = k_entry.get("project_title") or k_entry.get("filename")
         knowledge_match_type = match_type
-        # Only auto-apply discounts & quantities from verified full_summary entries with strong match
-        if k_entry.get("training_type", "full_summary") == "full_summary" and match_type in ("exact_filename", "sheet_fingerprint"):
+        # Only auto-apply discounts & quantities from verified full_summary or generated_summary entries with strong match
+        if k_entry.get("training_type", "full_summary") in ("full_summary", "generated_summary") and match_type in ("exact_filename", "sheet_fingerprint"):
             k_discs = k_entry.get("discounts", {})
             if k_discs:
                 learned_discounts = {}
@@ -1604,7 +1604,7 @@ def compute_format_confidence(wb_path, wb, arch_key, detected_options, has_diver
     }
 
 
-def train_from_workbook(wb_path, knowledge_db_path=None, original_filename=None):
+def train_from_workbook(wb_path, knowledge_db_path=None, original_filename=None, training_type_override=None):
     """
     Ingests either:
       1. A completed workbook with any Summary Sheet ('Summary', 'Summary Sheet', 'Project Summary', etc.) -> 'full_summary'
@@ -1667,7 +1667,7 @@ def train_from_workbook(wb_path, knowledge_db_path=None, original_filename=None)
                 kitchens_count = val
 
         entry = {
-            "training_type": "full_summary",
+            "training_type": training_type_override or "full_summary",
             "summary_sheet_name": summary_ws.title,
             "project_title": project_title,
             "filename": fname,
@@ -1823,9 +1823,14 @@ def verify_generated_summary(output_path):
     return {"ok": len(warnings) == 0, "warnings": warnings, "checked_cells": checked}
 
 
-def learn_from_generation(generated_path, knowledge_db_path="knowledge.json", original_filename=None):
+def learn_from_generation(generated_path, knowledge_db_path=None, original_filename=None):
     """
     Auto-Learn on Generate: Persists user-confirmed discounts, quantities, and generated formulas
-    from a newly generated Summary Sheet into knowledge.json.
+    from a newly generated Summary Sheet into knowledge.json as 'generated_summary'.
     """
-    return train_from_workbook(generated_path, knowledge_db_path=knowledge_db_path, original_filename=original_filename)
+    return train_from_workbook(
+        generated_path,
+        knowledge_db_path=knowledge_db_path,
+        original_filename=original_filename,
+        training_type_override="generated_summary",
+    )

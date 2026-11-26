@@ -1963,7 +1963,11 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: item['training_type'] == 'raw_layout' ? const Color(0xFFFEF3C7) : const Color(0xFFDCFCE7),
+                                  color: item['training_type'] == 'raw_layout'
+                                      ? const Color(0xFFFEF3C7)
+                                      : (item['training_type'] == 'generated_summary'
+                                          ? const Color(0xFFEFF6FF)
+                                          : const Color(0xFFDCFCE7)),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
