@@ -4,8 +4,9 @@ import json
 import shutil
 import tempfile
 import zipfile
-from typing import List
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException, BackgroundTasks
+from datetime import datetime
+from typing import List, Optional
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, BackgroundTasks, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -34,6 +35,12 @@ WORKSPACE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 RAW_BOQ_DIR = os.path.abspath(os.path.join(WORKSPACE_DIR, "data", "raw_boq"))
 KNOWLEDGE_PATH = os.path.abspath(os.path.join(WORKSPACE_DIR, "data", "trained_formats", "knowledge.json"))
 WEB_BUILD_DIR = os.path.abspath(os.path.join(WORKSPACE_DIR, "huliot_flutter_app", "build", "web"))
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "ADMIN123")
+
+
+def _verify_admin(x_admin_password: Optional[str]):
+    if x_admin_password != ADMIN_PASSWORD:
+        raise HTTPException(status_code=401, detail="Invalid Admin Password")
 
 
 @app.get("/api/status")
@@ -419,6 +426,63 @@ def scan_workspace_folder():
             trained.append(f)
 
     return {"status": "success", "scanned_files": len(files), "trained_files": trained}
+
+
+@app.post("/api/admin/login")
+async def admin_login(password: str = Form(...)):
+    """Validates Admin password."""
+    _verify_admin(password)
+    return {"status": "ok", "role": "admin"}
+
+
+@app.get("/api/admin/dashboard")
+def admin_dashboard(x_admin_password: Optional[str] = Header(default=None)):
+    """Returns Admin Dashboard metrics from knowledge.json."""
+    _verify_admin(x_admin_password)
+    db = huliot_core.load_knowledge_db(KNOWLEDGE_PATH)
+    projects = db.get("learned_projects", [])
+    today_str = datetime.now().strftime("%Y-%m-%d")
+
+    trained_today = sum(1 for p in projects if str(p.get("trained_at", "")).startswith(today_str))
+    dated = [p for p in projects if p.get("trained_at")]
+    dated_sorted = sorted(dated, key=lambda x: x.get("trained_at", ""), reverse=True)
+    last_trained_at = dated_sorted[0].get("trained_at") if dated_sorted else (
+        "Legacy (No timestamp)" if projects else "Never"
+    )
+
+    # Last 10 trained files (newest first if timestamped, else tail of list reversed)
+    undated = [p for p in reversed(projects) if not p.get("trained_at")]
+    recent_pool = dated_sorted + undated
+    recent_10 = [
+        {
+            "filename": p.get("filename", ""),
+            "project_title": p.get("project_title", ""),
+            "training_type": p.get("training_type", "full_summary"),
+            "archetype": p.get("archetype", "standard"),
+            "trained_at": p.get("trained_at", "Legacy"),
+        }
+        for p in recent_pool[:10]
+    ]
+
+    return {
+        "total_formats": len(projects),
+        "trained_today": trained_today,
+        "last_trained_at": last_trained_at,
+        "recent_10": recent_10,
+    }
+
+
+@app.get("/api/admin/download-knowledge")
+def admin_download_knowledge(x_admin_password: Optional[str] = Header(default=None)):
+    """Allows Admin to download a backup of knowledge.json."""
+    _verify_admin(x_admin_password)
+    if not os.path.exists(KNOWLEDGE_PATH):
+        raise HTTPException(status_code=404, detail="knowledge.json not found")
+    return FileResponse(
+        KNOWLEDGE_PATH,
+        media_type="application/json",
+        filename=f"knowledge_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+    )
 
 
 # Mount Flutter Web if built

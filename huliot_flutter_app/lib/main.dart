@@ -40,8 +40,16 @@ class MainStudioScreen extends StatefulWidget {
 class _MainStudioScreenState extends State<MainStudioScreen> {
   final String apiUrl = '${Uri.base.origin}/api';
 
-  int selectedMode = 0; // 0: Generate, 1: Train
+  int selectedMode = 0; // 0: Generate, 1: Train, 2: Admin Dashboard
   bool isBackendOnline = false;
+
+  // Auth State ('user' or 'admin', null = Login Screen)
+  String? loggedInRole;
+  String adminPassword = '';
+  bool isAdminLoggingIn = false;
+  bool isLoadingDashboard = false;
+  Map<String, dynamic>? adminDashboardData;
+  final TextEditingController adminPassCtrl = TextEditingController();
 
   // Generate Mode State
   WebFile? rawFile;
@@ -82,6 +90,92 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
       }
     } catch (_) {
       setState(() => isBackendOnline = false);
+    }
+  }
+
+  // --- AUTH & ADMIN FLOW ---
+  void loginAsUser() {
+    setState(() {
+      loggedInRole = 'user';
+      adminPassword = '';
+      selectedMode = 0;
+    });
+  }
+
+  Future<void> loginAsAdmin() async {
+    final pwd = adminPassCtrl.text.trim();
+    if (pwd.isEmpty) {
+      showSnack('कृपया Admin Password दर्ज करें', isError: true);
+      return;
+    }
+    setState(() => isAdminLoggingIn = true);
+    try {
+      final res = await http.post(
+        Uri.parse('$apiUrl/admin/login'),
+        body: {'password': pwd},
+      );
+      if (res.statusCode == 200) {
+        setState(() {
+          loggedInRole = 'admin';
+          adminPassword = pwd;
+          selectedMode = 2;
+          adminPassCtrl.clear();
+        });
+        await fetchAdminDashboard();
+      } else {
+        showSnack('❌ गलत Admin Password', isError: true);
+      }
+    } catch (e) {
+      showSnack('Admin Login Error: $e', isError: true);
+    } finally {
+      setState(() => isAdminLoggingIn = false);
+    }
+  }
+
+  void logout() {
+    setState(() {
+      loggedInRole = null;
+      adminPassword = '';
+      adminDashboardData = null;
+      selectedMode = 0;
+    });
+  }
+
+  Future<void> fetchAdminDashboard() async {
+    if (loggedInRole != 'admin') return;
+    setState(() => isLoadingDashboard = true);
+    try {
+      final res = await http.get(
+        Uri.parse('$apiUrl/admin/dashboard'),
+        headers: {'x-admin-password': adminPassword},
+      );
+      if (res.statusCode == 200) {
+        setState(() {
+          adminDashboardData = jsonDecode(res.body) as Map<String, dynamic>;
+        });
+      }
+    } catch (e) {
+      showSnack('Dashboard Error: $e', isError: true);
+    } finally {
+      setState(() => isLoadingDashboard = false);
+    }
+  }
+
+  Future<void> downloadKnowledgeBackup() async {
+    if (loggedInRole != 'admin') return;
+    try {
+      final res = await http.get(
+        Uri.parse('$apiUrl/admin/download-knowledge'),
+        headers: {'x-admin-password': adminPassword},
+      );
+      if (res.statusCode == 200) {
+        downloadBytes(res.bodyBytes, 'knowledge_backup.json', mimeType: 'application/json');
+        showSnack('✅ Knowledge Backup Downloaded!');
+      } else {
+        showSnack('Backup Error: ${res.body}', isError: true);
+      }
+    } catch (e) {
+      showSnack('Backup Error: $e', isError: true);
     }
   }
 
@@ -393,29 +487,61 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
               const Spacer(),
 
               // Clean Mode Selector (Segmented)
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
-                  borderRadius: BorderRadius.circular(8),
+              if (loggedInRole != null) ...[
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.all(4),
+                  child: Row(
+                    children: [
+                      _buildModeButton(
+                        index: 0,
+                        icon: Icons.flash_on,
+                        label: 'Generate Summary',
+                      ),
+                      const SizedBox(width: 4),
+                      _buildModeButton(
+                        index: 1,
+                        icon: Icons.school,
+                        label: 'Train New Format',
+                      ),
+                      if (loggedInRole == 'admin') ...[
+                        const SizedBox(width: 4),
+                        _buildModeButton(
+                          index: 2,
+                          icon: Icons.admin_panel_settings,
+                          label: 'Admin Dashboard',
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
-                padding: const EdgeInsets.all(4),
-                child: Row(
-                  children: [
-                    _buildModeButton(
-                      index: 0,
-                      icon: Icons.flash_on,
-                      label: 'Generate Summary',
+                const SizedBox(width: 12),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: loggedInRole == 'admin' ? const Color(0xFFFEF3C7) : const Color(0xFFEFF6FF),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    loggedInRole == 'admin' ? 'Admin' : 'User',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: loggedInRole == 'admin' ? const Color(0xFF92400E) : const Color(0xFF1D4ED8),
                     ),
-                    const SizedBox(width: 4),
-                    _buildModeButton(
-                      index: 1,
-                      icon: Icons.school,
-                      label: 'Train New Format',
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
+                const SizedBox(width: 8),
+                IconButton(
+                  tooltip: 'Logout',
+                  onPressed: logout,
+                  icon: const Icon(Icons.logout, size: 18, color: Color(0xFF64748B)),
+                ),
+                const SizedBox(width: 6),
+              ],
 
               // Status Chip
               Container(
@@ -439,14 +565,25 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
           ),
         ),
       ),
-      body: selectedMode == 0 ? _buildGenerateView() : _buildTrainView(),
+      body: loggedInRole == null
+          ? _buildLoginView()
+          : (selectedMode == 0
+              ? _buildGenerateView()
+              : (selectedMode == 1
+                  ? _buildTrainView()
+                  : (loggedInRole == 'admin' ? _buildAdminDashboardView() : _buildGenerateView()))),
     );
   }
 
   Widget _buildModeButton({required int index, required IconData icon, required String label}) {
     final isSelected = selectedMode == index;
     return InkWell(
-      onTap: () => setState(() => selectedMode = index),
+      onTap: () {
+        setState(() => selectedMode = index);
+        if (index == 2 && loggedInRole == 'admin') {
+          fetchAdminDashboard();
+        }
+      },
       borderRadius: BorderRadius.circular(6),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
@@ -1316,6 +1453,313 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // --- VIEW 0: LOGIN SCREEN ---
+  Widget _buildLoginView() {
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: Column(
+            children: [
+              const Text(
+                'VIEW SUMMARY STUDIO',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'जारी रखने के लिए अपना Login मोड चुनें',
+                style: TextStyle(fontSize: 13.5, color: Color(0xFF64748B)),
+              ),
+              const SizedBox(height: 28),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // User Login Card
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: const Color(0xFFE2E8F0)),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4)),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: const BoxDecoration(color: Color(0xFFEFF6FF), shape: BoxShape.circle),
+                            child: const Icon(Icons.person, size: 34, color: Color(0xFF0F4C81)),
+                          ),
+                          const SizedBox(height: 14),
+                          const Text('User Login', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 6),
+                          const Text(
+                            'Generate Summary और Train New Format का उपयोग करें',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12.5, color: Color(0xFF64748B)),
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: loginAsUser,
+                              icon: const Icon(Icons.login, size: 18),
+                              label: const Text('Enter as User', style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF0F4C81),
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  // Admin Login Card
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: const Color(0xFFE2E8F0)),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4)),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: const BoxDecoration(color: Color(0xFFFEF3C7), shape: BoxShape.circle),
+                            child: const Icon(Icons.admin_panel_settings, size: 34, color: Color(0xFFB45309)),
+                          ),
+                          const SizedBox(height: 14),
+                          const Text('Admin Login', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 6),
+                          const Text(
+                            'Generate + Train + Admin Dashboard & Backup',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12.5, color: Color(0xFF64748B)),
+                          ),
+                          const SizedBox(height: 14),
+                          TextField(
+                            controller: adminPassCtrl,
+                            obscureText: true,
+                            onSubmitted: (_) => loginAsAdmin(),
+                            decoration: InputDecoration(
+                              labelText: 'Admin Password',
+                              prefixIcon: const Icon(Icons.lock_outline, size: 18),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: isAdminLoggingIn ? null : loginAsAdmin,
+                              icon: isAdminLoggingIn
+                                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                                  : const Icon(Icons.verified_user, size: 18),
+                              label: const Text('Login as Admin', style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFB45309),
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // --- VIEW 3: ADMIN DASHBOARD (ADMIN ONLY) ---
+  Widget _buildAdminDashboardView() {
+    final totalFormats = adminDashboardData?['total_formats'] ?? '-';
+    final trainedToday = adminDashboardData?['trained_today'] ?? '-';
+    final lastTrained = adminDashboardData?['last_trained_at'] ?? '-';
+    final List<dynamic> recent10 = (adminDashboardData?['recent_10'] as List<dynamic>?) ?? [];
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+      child: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 920),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.admin_panel_settings, color: Color(0xFFB45309), size: 26),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Admin Dashboard',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                  ),
+                  const Spacer(),
+                  OutlinedButton.icon(
+                    onPressed: isLoadingDashboard ? null : fetchAdminDashboard,
+                    icon: const Icon(Icons.refresh, size: 17),
+                    label: const Text('Refresh'),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton.icon(
+                    onPressed: downloadKnowledgeBackup,
+                    icon: const Icon(Icons.download, size: 18),
+                    label: const Text('Download Knowledge Backup'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF0F4C81),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(child: _buildStatCard('Total Formats', '$totalFormats', Icons.library_books, const Color(0xFF0F4C81))),
+                  const SizedBox(width: 14),
+                  Expanded(child: _buildStatCard('आज नई Train हुईं', '$trainedToday', Icons.today, const Color(0xFF059669))),
+                  const SizedBox(width: 14),
+                  Expanded(child: _buildStatCard('Last Train कब हुई', '$lastTrained', Icons.schedule, const Color(0xFF7E22CE))),
+                ],
+              ),
+              const SizedBox(height: 24),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'आखिरी 10 Train की हुई फाइलें',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                    ),
+                    const SizedBox(height: 12),
+                    if (isLoadingDashboard)
+                      const Center(child: Padding(padding: EdgeInsets.all(20), child: CircularProgressIndicator()))
+                    else if (recent10.isEmpty)
+                      const Text('कोई डेटा उपलब्ध नहीं है।', style: TextStyle(color: Color(0xFF64748B)))
+                    else
+                      ...recent10.asMap().entries.map((entry) {
+                        final idx = entry.key + 1;
+                        final item = entry.value as Map<String, dynamic>;
+                        return Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                          margin: const EdgeInsets.only(bottom: 8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF8FAFC),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: const Color(0xFFE2E8F0)),
+                          ),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 13,
+                                backgroundColor: const Color(0xFF0F4C81),
+                                child: Text('$idx', style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['filename']?.toString() ?? '',
+                                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                                    ),
+                                    Text(
+                                      '${item['project_title'] ?? ''}  •  ${item['archetype'] ?? ''}',
+                                      style: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: item['training_type'] == 'raw_layout' ? const Color(0xFFFEF3C7) : const Color(0xFFDCFCE7),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  item['training_type']?.toString() ?? '',
+                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                item['trained_at']?.toString() ?? 'Legacy',
+                                style: const TextStyle(fontSize: 11.5, color: Color(0xFF475569)),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard(String label, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+            child: Icon(icon, color: color, size: 22),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B), fontWeight: FontWeight.w600)),
+                const SizedBox(height: 4),
+                Text(value, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)), overflow: TextOverflow.ellipsis),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

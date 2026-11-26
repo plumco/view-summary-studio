@@ -1,6 +1,7 @@
 import os
 import re
 import json
+from datetime import datetime
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
@@ -1722,6 +1723,8 @@ def train_from_workbook(wb_path, knowledge_db_path=None, original_filename=None)
             "sheetnames": wb.sheetnames
         }
         warnings = meta.get("warnings", [])
+
+    entry["trained_at"] = datetime.now().isoformat(timespec="seconds")
 
     db = {"learned_projects": [], "summary_count": 0}
     if os.path.exists(knowledge_db_path):
