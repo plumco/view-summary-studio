@@ -516,7 +516,7 @@ def admin_dashboard(request: Request, x_admin_password: Optional[str] = Header(d
     # Last 10 trained files (newest first if timestamped, else tail of list reversed)
     undated = [p for p in reversed(projects) if not p.get("trained_at")]
     recent_pool = dated_sorted + undated
-    recent_10 = [
+    all_formats = [
         {
             "filename": p.get("filename", ""),
             "project_title": p.get("project_title", ""),
@@ -524,14 +524,15 @@ def admin_dashboard(request: Request, x_admin_password: Optional[str] = Header(d
             "archetype": p.get("archetype", "standard"),
             "trained_at": p.get("trained_at", "Legacy"),
         }
-        for p in recent_pool[:10]
+        for p in recent_pool
     ]
 
     return {
         "total_formats": len(projects),
         "trained_today": trained_today,
         "last_trained_at": last_trained_at,
-        "recent_10": recent_10,
+        "recent_10": all_formats[:10],
+        "all_formats": all_formats,
     }
 
 

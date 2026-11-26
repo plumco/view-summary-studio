@@ -48,6 +48,7 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
   String adminPassword = '';
   bool isAdminLoggingIn = false;
   bool isLoadingDashboard = false;
+  bool showAllFormats = false;
   Map<String, dynamic>? adminDashboardData;
   final TextEditingController adminPassCtrl = TextEditingController();
 
@@ -1858,6 +1859,8 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
     final trainedToday = adminDashboardData?['trained_today'] ?? '-';
     final lastTrained = adminDashboardData?['last_trained_at'] ?? '-';
     final List<dynamic> recent10 = (adminDashboardData?['recent_10'] as List<dynamic>?) ?? [];
+    final List<dynamic> allFormats = (adminDashboardData?['all_formats'] as List<dynamic>?) ?? recent10;
+    final List<dynamic> displayedList = showAllFormats ? allFormats : recent10;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
@@ -1916,17 +1919,31 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'आखिरी 10 Train की हुई फाइलें',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                    Row(
+                      children: [
+                        Text(
+                          showAllFormats ? 'सभी Train की हुई फाइलें (${allFormats.length})' : 'आखिरी 10 Train की हुई फाइलें',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                        ),
+                        const Spacer(),
+                        if (allFormats.length > 10)
+                          TextButton.icon(
+                            onPressed: () => setState(() => showAllFormats = !showAllFormats),
+                            icon: Icon(showAllFormats ? Icons.unfold_less : Icons.unfold_more, size: 17),
+                            label: Text(
+                              showAllFormats ? 'Show Recent 10' : 'View All (${allFormats.length})',
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5),
+                            ),
+                          ),
+                      ],
                     ),
                     const SizedBox(height: 12),
                     if (isLoadingDashboard)
                       const Center(child: Padding(padding: EdgeInsets.all(20), child: CircularProgressIndicator()))
-                    else if (recent10.isEmpty)
+                    else if (displayedList.isEmpty)
                       const Text('कोई डेटा उपलब्ध नहीं है।', style: TextStyle(color: Color(0xFF64748B)))
                     else
-                      ...recent10.asMap().entries.map((entry) {
+                      ...displayedList.asMap().entries.map((entry) {
                         final idx = entry.key + 1;
                         final item = entry.value as Map<String, dynamic>;
                         return Container(
