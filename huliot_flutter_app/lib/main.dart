@@ -459,8 +459,10 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC), // Ultra clean background
-      appBar: PreferredSize(
+      backgroundColor: loggedInRole == null ? const Color(0xFF0B1120) : const Color(0xFFF8FAFC),
+      appBar: loggedInRole == null
+          ? null
+          : PreferredSize(
         preferredSize: const Size.fromHeight(68),
         child: Container(
           decoration: const BoxDecoration(
@@ -1457,140 +1459,388 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
     );
   }
 
-  // --- VIEW 0: LOGIN SCREEN ---
-  Widget _buildLoginView() {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 720),
-          child: Column(
-            children: [
-              const Text(
-                'VIEW SUMMARY STUDIO',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'जारी रखने के लिए अपना Login मोड चुनें',
-                style: TextStyle(fontSize: 13.5, color: Color(0xFF64748B)),
-              ),
-              const SizedBox(height: 28),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+  // --- VIEW 0: LOGIN SCREEN (DARK LAMP THEME) ---
+  Future<void> _showAdminPasswordDialog() async {
+    adminPassCtrl.clear();
+    String? dialogError;
+    await showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (ctx) {
+        return StatefulBuilder(builder: (ctx, setDlgState) {
+          Future<void> submit() async {
+            final pwd = adminPassCtrl.text.trim();
+            if (pwd.isEmpty) {
+              setDlgState(() => dialogError = 'कृपया Admin Password दर्ज करें');
+              return;
+            }
+            setDlgState(() {
+              dialogError = null;
+              isAdminLoggingIn = true;
+            });
+            try {
+              final res = await http.post(
+                Uri.parse('$apiUrl/admin/login'),
+                body: {'password': pwd},
+              );
+              if (res.statusCode == 200) {
+                if (ctx.mounted) Navigator.of(ctx).pop();
+                setState(() {
+                  loggedInRole = 'admin';
+                  adminPassword = pwd;
+                  selectedMode = 2;
+                  adminPassCtrl.clear();
+                });
+                await fetchAdminDashboard();
+              } else {
+                setDlgState(() => dialogError = '❌ गलत Admin Password');
+              }
+            } catch (e) {
+              setDlgState(() => dialogError = 'Server Error: $e');
+            } finally {
+              if (ctx.mounted) setDlgState(() => isAdminLoggingIn = false);
+            }
+          }
+
+          return Dialog(
+            backgroundColor: const Color(0xFF1E293B),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: const BorderSide(color: Color(0xFF334155)),
+            ),
+            child: Container(
+              width: 380,
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // User Login Card
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xFFE2E8F0)),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4)),
-                        ],
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF59E0B).withOpacity(0.15),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.lock_outline, color: Color(0xFFFBBF24), size: 28),
+                  ),
+                  const SizedBox(height: 14),
+                  const Text(
+                    'Admin Authentication',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Admin Dashboard खोलने के लिए Password डालें',
+                    style: TextStyle(fontSize: 12.5, color: Color(0xFF94A3B8)),
+                  ),
+                  const SizedBox(height: 18),
+                  TextField(
+                    controller: adminPassCtrl,
+                    obscureText: true,
+                    autofocus: true,
+                    style: const TextStyle(color: Colors.white),
+                    onSubmitted: (_) => submit(),
+                    decoration: InputDecoration(
+                      labelText: 'Admin Password',
+                      labelStyle: const TextStyle(color: Color(0xFF94A3B8)),
+                      prefixIcon: const Icon(Icons.key, color: Color(0xFFFBBF24), size: 18),
+                      filled: true,
+                      fillColor: const Color(0xFF0F172A),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF334155)),
                       ),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(14),
-                            decoration: const BoxDecoration(color: Color(0xFFEFF6FF), shape: BoxShape.circle),
-                            child: const Icon(Icons.person, size: 34, color: Color(0xFF0F4C81)),
-                          ),
-                          const SizedBox(height: 14),
-                          const Text('User Login', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 6),
-                          const Text(
-                            'Generate Summary और Train New Format का उपयोग करें',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12.5, color: Color(0xFF64748B)),
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: loginAsUser,
-                              icon: const Icon(Icons.login, size: 18),
-                              label: const Text('Enter as User', style: TextStyle(fontWeight: FontWeight.bold)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF0F4C81),
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                              ),
-                            ),
-                          ),
-                        ],
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFFFBBF24), width: 1.5),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  // Admin Login Card
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xFFE2E8F0)),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4)),
-                        ],
+                  if (dialogError != null) ...[
+                    const SizedBox(height: 10),
+                    Text(dialogError!, style: const TextStyle(color: Color(0xFFFCA5A5), fontSize: 12.5, fontWeight: FontWeight.w600)),
+                  ],
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () => Navigator.of(ctx).pop(),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: const Color(0xFFCBD5E1),
+                            side: const BorderSide(color: Color(0xFF475569)),
+                            padding: const EdgeInsets.symmetric(vertical: 13),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                          child: const Text('Cancel'),
+                        ),
                       ),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(14),
-                            decoration: const BoxDecoration(color: Color(0xFFFEF3C7), shape: BoxShape.circle),
-                            child: const Icon(Icons.admin_panel_settings, size: 34, color: Color(0xFFB45309)),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: isAdminLoggingIn ? null : submit,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFF59E0B),
+                            foregroundColor: const Color(0xFF0F172A),
+                            padding: const EdgeInsets.symmetric(vertical: 13),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                           ),
-                          const SizedBox(height: 14),
-                          const Text('Admin Login', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 6),
-                          const Text(
-                            'Generate + Train + Admin Dashboard & Backup',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12.5, color: Color(0xFF64748B)),
-                          ),
-                          const SizedBox(height: 14),
-                          TextField(
-                            controller: adminPassCtrl,
-                            obscureText: true,
-                            onSubmitted: (_) => loginAsAdmin(),
-                            decoration: InputDecoration(
-                              labelText: 'Admin Password',
-                              prefixIcon: const Icon(Icons.lock_outline, size: 18),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: isAdminLoggingIn ? null : loginAsAdmin,
-                              icon: isAdminLoggingIn
-                                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                                  : const Icon(Icons.verified_user, size: 18),
-                              label: const Text('Login as Admin', style: TextStyle(fontWeight: FontWeight.bold)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFB45309),
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                              ),
-                            ),
-                          ),
-                        ],
+                          child: isAdminLoggingIn
+                              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                              : const Text('Unlock Admin', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          );
+        });
+      },
+    );
+  }
+
+  Widget _buildLoginView() {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF070B14), Color(0xFF0F172A), Color(0xFF111827)],
         ),
+      ),
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          // Warm Lamp Ambient Glow Cone at Top Center
+          Positioned(
+            top: 0,
+            child: Column(
+              children: [
+                // Lamp Cord
+                Container(
+                  width: 3,
+                  height: 36,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0xFF334155), Color(0xFF94A3B8)],
+                    ),
+                  ),
+                ),
+                // Lamp Shade
+                Container(
+                  width: 96,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0xFF334155), Color(0xFF1E293B)],
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(48),
+                      topRight: Radius.circular(48),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    border: Border.all(color: const Color(0xFF475569)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFFF59E0B).withOpacity(0.35),
+                        blurRadius: 30,
+                        spreadRadius: 4,
+                        offset: const Offset(0, 12),
+                      ),
+                    ],
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: 34,
+                      height: 6,
+                      margin: const EdgeInsets.only(bottom: 2),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFDE68A),
+                        borderRadius: BorderRadius.circular(6),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFBBF24).withOpacity(0.9),
+                            blurRadius: 18,
+                            spreadRadius: 4,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Warm Radial Light Beam
+                Container(
+                  width: 520,
+                  height: 220,
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      center: Alignment.topCenter,
+                      radius: 0.9,
+                      colors: [
+                        const Color(0xFFF59E0B).withOpacity(0.20),
+                        const Color(0xFFF59E0B).withOpacity(0.05),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Center Single Welcome Window & 2 Tabs (User | Admin)
+          Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(24, 96, 24, 32),
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 460),
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 34),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E293B).withOpacity(0.90),
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(color: const Color(0xFF334155), width: 1.2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.50),
+                      blurRadius: 34,
+                      offset: const Offset(0, 14),
+                    ),
+                    BoxShadow(
+                      color: const Color(0xFFF59E0B).withOpacity(0.09),
+                      blurRadius: 42,
+                      offset: const Offset(0, -6),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0F172A),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: const Color(0xFF334155)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircleAvatar(
+                            radius: 4,
+                            backgroundColor: isBackendOnline ? const Color(0xFF34D399) : const Color(0xFFF87171),
+                          ),
+                          const SizedBox(width: 7),
+                          Text(
+                            isBackendOnline ? 'System Online' : 'Connecting...',
+                            style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 11.5, fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Welcome to',
+                      style: TextStyle(fontSize: 14, color: Color(0xFFFBBF24), fontWeight: FontWeight.w600, letterSpacing: 1.2),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'VIEW SUMMARY STUDIO',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Automated Commercial & MEP Estimation Engine',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12.5, color: Color(0xFF94A3B8)),
+                    ),
+                    const SizedBox(height: 28),
+
+                    // Single Segmented Tab Bar at bottom of Window: Tab 1 (User) | Tab 2 (Admin)
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0F172A),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: const Color(0xFF334155)),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: loginAsUser,
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF0284C7), Color(0xFF0369A1)],
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.person_outline, size: 18, color: Colors.white),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'User',
+                                      style: TextStyle(color: Colors.white, fontSize: 14.5, fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: InkWell(
+                              onTap: _showAdminPasswordDialog,
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF1E293B),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: const Color(0xFFF59E0B).withOpacity(0.6)),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.lock_outline, size: 17, color: Color(0xFFFBBF24)),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'Admin',
+                                      style: TextStyle(color: Color(0xFFFBBF24), fontSize: 14.5, fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
