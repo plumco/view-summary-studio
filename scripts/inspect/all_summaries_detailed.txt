@@ -1,0 +1,185 @@
+
+================================================================================
+FILE 1: Huliot BOQ Summary AVINEA BY SIGMA 13.08.2026 - 09.10.2026.xlsx
+================================================================================
+Sheet dimensions: max_row=29, max_column=55
+Merged cell ranges:
+  C2:K2
+  C3:C4
+  D3:D4
+  E3:F3
+  G3:H3
+  I3:I4
+  J3:J4
+  K3:K4
+  C11:D11
+  C23:E23
+
+All non-empty cells:
+Row  2 -> C2: Huliot Summary Sheet - Avinea By Vyom Sigma (T3 & T4)
+Row  3 -> C3: Option | D3: Tower | E3: Toilet Cost | G3: Kitchen Cost | I3: Grand Total Cost | J3: Per Toilet Cost | K3: Per Flat Cost
+Row  4 -> E4: Tower Cost | F4: Per Toilet Cost | G4: Tower Cost | H4: Per Kitchen Cost
+Row  5 -> C5: HT Pro | D5: Typical Floor | E5: [FORMULA=='Typical Floor BOQ  (T)'!$AW$63 | VAL=4935579.960000001] | F5: [FORMULA==E5/$D$18 | VAL=5508.459776785715] | G5: [FORMULA=='Typical Floor BOQ  (K)'!$AC$63 | VAL=1181718.3299999996] | H5: [FORMULA==G5/$D$19 | VAL=3517.018839285713] | I5: [FORMULA==E5+G5 | VAL=6117298.290000001] | J5: [FORMULA==I5/$D$18 | VAL=6827.3418415178585] | K5: [FORMULA==I5/$D$19 | VAL=18206.24491071429]
+Row  6 -> C6: Hybrid | D6: Typical Floor | E6: [FORMULA=='Typical Floor BOQ  (T)'!$BD$63 | VAL=8226428.640000002] | F6: [FORMULA==E6/$D$18 | VAL=9181.281964285718] | G6: [FORMULA=='Typical Floor BOQ  (K)'!$AJ$63 | VAL=1554877.8299999994] | H6: [FORMULA==G6/$D$19 | VAL=4627.612589285713] | I6: [FORMULA==E6+G6 | VAL=9781306.470000003] | J6: [FORMULA==I6/$D$18 | VAL=10916.63668526786] | K6: [FORMULA==I6/$D$19 | VAL=29111.031160714294]
+Row  7 -> C7: Ultra Silent | D7: Typical Floor | E7: [FORMULA=='Typical Floor BOQ  (T)'!$AP$63 | VAL=9268091.040000001] | F7: [FORMULA==E7/$D$18 | VAL=10343.851607142858] | G7: [FORMULA=='Typical Floor BOQ  (K)'!$V$63 | VAL=1864054.8299999998] | H7: [FORMULA==G7/$D$19 | VAL=5547.782232142857] | I7: [FORMULA==E7+G7 | VAL=11132145.870000001] | J7: [FORMULA==I7/$D$18 | VAL=12424.26994419643] | K7: [FORMULA==I7/$D$19 | VAL=33131.38651785714]
+Row 11 -> C11: Discount Structure
+Row 12 -> B12: P | C12: Pipe | D12: 0.55 | BA12: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B12,'Typical Floor BOQ '!$BI$15:$BI$62) | VAL=2481827.4899999993] | BB12: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B12,'Typical Floor BOQ '!$BP$15:$BP$62) | VAL=3469620.8699999996] | BC12: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,'Summary Sheet'!B12,'Typical Floor BOQ '!$BB$15:$BB$62) | VAL=4204854.2700000005]
+Row 13 -> B13: F | C13: Fittings | D13: 0.55 | BA13: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B13,'Typical Floor BOQ '!$BI$15:$BI$62) | VAL=2074541.3999999997] | BB13: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B13,'Typical Floor BOQ '!$BP$15:$BP$62) | VAL=4376044.8] | BC13: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,'Summary Sheet'!B13,'Typical Floor BOQ '!$BB$15:$BB$62) | VAL=4695152.400000001]
+Row 14 -> B14: M | C14: MFT | D14: 0.55 | BA14: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B14,'Typical Floor BOQ '!$BI$15:$BI$62) | VAL=883108.7999999998] | BB14: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B14,'Typical Floor BOQ '!$BP$15:$BP$62) | VAL=984916.7999999998] | BC14: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,'Summary Sheet'!B14,'Typical Floor BOQ '!$BB$15:$BB$62) | VAL=984916.7999999998]
+Row 15 -> B15: L | C15: Lubricant | D15: 0.45 | BA15: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B15,'Typical Floor BOQ '!$BI$15:$BI$62) | VAL=67082.4] | BB15: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B15,'Typical Floor BOQ '!$BP$15:$BP$62) | VAL=67082.4] | BC15: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,'Summary Sheet'!B15,'Typical Floor BOQ '!$BB$15:$BB$62) | VAL=67082.4]
+Row 16 -> B16: C | C16: Clamps | D16: 0.45 | BA16: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B16,'Typical Floor BOQ '!$BI$15:$BI$62) | VAL=610738.2] | BB16: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,B16,'Typical Floor BOQ '!$BP$15:$BP$62) | VAL=883641.5999999999] | BC16: [FORMULA==SUMIF('Typical Floor BOQ '!$BS$15:$BS$62,'Summary Sheet'!B16,'Typical Floor BOQ '!$BB$15:$BB$62) | VAL=1180139.9999999998]
+Row 18 -> C18: No of Toilets | D18: 896
+Row 19 -> C19: No of Kitchens | D19: 336
+Row 23 -> C23: Product-Cost Ratio
+Row 24 -> C24: HT PRO | D24: Hybrid | E24: Ultra Silent
+Row 25 -> C25: [FORMULA==BA12/$I$5 | VAL=0.40570646915437547] | D25: [FORMULA==BB12/$I$6 | VAL=0.3547195745927792] | E25: [FORMULA==BC12/$I$7 | VAL=0.3777218084548869]
+Row 26 -> C26: [FORMULA==BA13/$I$5 | VAL=0.33912706257781644] | D26: [FORMULA==BB13/$I$6 | VAL=0.4473885787570051] | E26: [FORMULA==BC13/$I$7 | VAL=0.4217652602498642]
+Row 27 -> C27: [FORMULA==BA14/$I$5 | VAL=0.1443625532277256] | D27: [FORMULA==BB14/$I$6 | VAL=0.10069378799456015] | E27: [FORMULA==BC14/$I$7 | VAL=0.08847501744064011]
+Row 28 -> C28: [FORMULA==BA15/$I$5 | VAL=0.010966017483512315] | D28: [FORMULA==BB15/$I$6 | VAL=0.006858224942214696] | E28: [FORMULA==BC15/$I$7 | VAL=0.00602600799373104]
+Row 29 -> C29: [FORMULA==BA16/$I$5 | VAL=0.09983789755656984] | D29: [FORMULA==BB16/$I$6 | VAL=0.0903398337134405] | E29: [FORMULA==BC16/$I$7 | VAL=0.1060119058608778]
+
+================================================================================
+FILE 2: Huliot BOQ Summary BDR Hospital_08.07.2026.xlsx
+================================================================================
+Sheet dimensions: max_row=18, max_column=32
+Merged cell ranges:
+  B2:I2
+  B10:C11
+  D10:F10
+
+All non-empty cells:
+Row  2 -> B2: Huliot Summary Sheet- BDR Hospital Kondhwa Ground,1,2,3,5,6,7
+Row  3 -> B3: Option | C3: Tower | D3: Tower Cost | E3: Per Toilet Cost | F3: Diversion Cost | G3: Per Toilet Cost | H3: Grand Total Cost | I3: Per Toilet Cost
+Row  4 -> B4: HT Pro | C4: Typical Floor + Diversion | D4: [FORMULA=='Typical Floor BOQ G to 7'!$ID$83 | VAL=2055351.7124999994] | E4: [FORMULA==D4/$C$18 | VAL=8936.311793478259] | F4: [FORMULA=='Diversion BOQ 4 Floor '!$CN$55 | VAL=1393303.14] | G4: [FORMULA==F4/$C$18 | VAL=6057.839739130434] | H4: [FORMULA==D4+F4 | VAL=3448654.852499999] | I4: [FORMULA==H4/$C$18 | VAL=14994.151532608692]
+Row  5 -> B5: Ultra Silent | C5: Typical Floor + Diversion | D5: [FORMULA=='Typical Floor BOQ G to 7'!$HW$83 | VAL=3217121.5424999995] | E5: [FORMULA==D5/$C$18 | VAL=13987.484967391303] | F5: [FORMULA=='Diversion BOQ 4 Floor '!$CG$55 | VAL=1761847.1849999998] | G5: [FORMULA==F5/$C$18 | VAL=7660.205152173912] | H5: [FORMULA==D5+F5 | VAL=4978968.727499999] | I5: [FORMULA==H5/$C$18 | VAL=21647.690119565214]
+Row  6 -> B6: Toilet HT Pro + Diversion Ultra Silent | C6: Typical Floor + Diversion | D6: [FORMULA=='Typical Floor BOQ G to 7'!$ID$83 | VAL=2055351.7124999994] | E6: [FORMULA==D6/$C$18 | VAL=8936.311793478259] | F6: [FORMULA=='Diversion BOQ 4 Floor '!$CG$55 | VAL=1761847.1849999998] | G6: [FORMULA==F6/$C$18 | VAL=7660.205152173912] | H6: [FORMULA==D6+F6 | VAL=3817198.897499999] | I6: [FORMULA==H6/$C$18 | VAL=16596.51694565217]
+Row 10 -> B10: Discount Structure | D10: Ratio
+Row 11 -> D11: HT Pro | E11: Ultra Silent | F11: Toilet HT + Diversion US
+Row 12 -> B12: Pipe | C12: 0.55 | D12: [FORMULA==AD12/$H$4 | VAL=0.35984213209982285] | E12: [FORMULA==AB12/$H$5 | VAL=0.3901640673640885] | F12: [FORMULA==AF12/$H$6 | VAL=0.36344204146883863] | AA12: 4316921.533333333 | AB12: [FORMULA==(1-C12)*AA12 | VAL=1942614.6899999997] | AC12: 2757714.0333333327 | AD12: [FORMULA==(1-C12)*AC12 | VAL=1240971.3149999997] | AE12: 3082956.8 | AF12: [FORMULA==(1-C12)*AE12 | VAL=1387330.5599999998]
+Row 13 -> B13: Fittings | C13: 0.55 | D13: [FORMULA==AD13/$H$4 | VAL=0.35232367458262487] | E13: [FORMULA==AB13/$H$5 | VAL=0.40612099827654524] | F13: [FORMULA==AF13/$H$6 | VAL=0.37651366580381346] | AA13: 4493475 | AB13: [FORMULA==(1-C13)*AA13 | VAL=2022063.7499999998] | AC13: 2700095 | AD13: [FORMULA==(1-C13)*AC13 | VAL=1215042.7499999998] | AE13: 3193839 | AF13: [FORMULA==(1-C13)*AE13 | VAL=1437227.5499999998]
+Row 14 -> B14: MFT | C14: 0.55 | D14: [FORMULA==AD14/$H$4 | VAL=0.06119568615195308] | E14: [FORMULA==AB14/$H$5 | VAL=0.046735039470078704] | F14: [FORMULA==AF14/$H$6 | VAL=0.05528734699630622] | AA14: 517094 | AB14: [FORMULA==(1-C14)*AA14 | VAL=232692.3] | AC14: 468984 | AD14: [FORMULA==(1-C14)*AC14 | VAL=211042.8] | AE14: 468984 | AF14: [FORMULA==(1-C14)*AE14 | VAL=211042.8]
+Row 15 -> B15: Lubricant | C15: 0.45 | D15: [FORMULA==AD15/$H$4 | VAL=0.004262966469185106] | E15: [FORMULA==AB15/$H$5 | VAL=0.0029527198913301476] | F15: [FORMULA==AF15/$H$6 | VAL=0.0038513843251994197] | AA15: 26730 | AB15: [FORMULA==(1-C15)*AA15 | VAL=14701.500000000002] | AC15: 26730 | AD15: [FORMULA==(1-C15)*AC15 | VAL=14701.500000000002] | AE15: 26730 | AF15: [FORMULA==(1-C15)*AE15 | VAL=14701.500000000002]
+Row 16 -> B16: Clamps | C16: 0.45 | D16: [FORMULA==AD16/$H$4 | VAL=0.22237554069641421] | E16: [FORMULA==AB16/$H$5 | VAL=0.15402717499795746] | F16: [FORMULA==AF16/$H$6 | VAL=0.2009055614058424] | AA16: 1394357.2499999998 | AB16: [FORMULA==(1-C16)*AA16 | VAL=766896.4874999999] | AC16: 1394357.2499999998 | AD16: [FORMULA==(1-C16)*AC16 | VAL=766896.4874999999] | AE16: 1394357.2499999998 | AF16: [FORMULA==(1-C16)*AE16 | VAL=766896.4874999999]
+Row 18 -> B18: No of Toilets | C18: 230
+
+================================================================================
+FILE 3: Huliot BOQ Summary For Empire Developers 22.10.2026 - 31.10.2026.xlsx
+================================================================================
+Sheet dimensions: max_row=22, max_column=11
+Merged cell ranges:
+  C2:K2
+  C3:C4
+  D3:D4
+  E3:F3
+  G3:H3
+  I3:I4
+  J3:J4
+  K3:K4
+  C11:F11
+
+All non-empty cells:
+Row  2 -> C2: Huliot Summary Sheet - Empire The Horizon 
+Row  3 -> C3: Option | D3: Tower | E3: Toilet Cost | G3: Kitchen Cost | I3: Grand Total Cost | J3: Per Toilet Cost | K3: Per Flat Cost
+Row  4 -> E4: Tower Cost | F4: Per Toilet Cost | G4: Tower Cost | H4: Per Kitchen Cost
+Row  5 -> C5: HT Pro | D5: Typical Floor | E5: [FORMULA=='Typical Floor BOQ  (T)'!$AH$95 | VAL=2294871.9400000004] | F5: [FORMULA==E5/$D$21 | VAL=6136.021229946525] | G5: [FORMULA=='Typical Floor BOQ  (K)'!$Y$95 | VAL=543533.8133333334] | H5: [FORMULA==G5/$D$22 | VAL=3088.260303030303] | I5: [FORMULA==E5+G5 | VAL=2838405.753333334] | J5: [FORMULA==I5/$D$21 | VAL=7589.320196078433] | K5: [FORMULA==I5/$D$22 | VAL=16127.30541666667]
+Row  6 -> C6: Drain Pro | D6: Typical Floor | E6: [FORMULA=='Typical Floor BOQ  (T)'!$AW$95 | VAL=2464186.967666667] | F6: [FORMULA==E6/$D$21 | VAL=6588.735207664885] | G6: [FORMULA=='Typical Floor BOQ  (K)'!$AN$95 | VAL=546910.9226666667] | H6: [FORMULA==G6/$D$22 | VAL=3107.448424242424] | I6: [FORMULA==E6+G6 | VAL=3011097.8903333335] | J6: [FORMULA==I6/$D$21 | VAL=8051.063877896614] | K6: [FORMULA==I6/$D$22 | VAL=17108.510740530302]
+Row  7 -> C7: Difference with Drain Pro | D7: Typical Floor | E7: [FORMULA==E5-E6 | VAL=-169315.02766666654] | F7: [FORMULA==F5-F6 | VAL=-452.7139777183602] | G7: [FORMULA==G5-G6 | VAL=-3377.1093333333265] | H7: [FORMULA==H5-H6 | VAL=-19.188121212121132] | I7: [FORMULA==I5-I6 | VAL=-172692.13699999964] | J7: [FORMULA==J5-J6 | VAL=-461.74368181818136] | K7: [FORMULA==K5-K6 | VAL=-981.2053238636327]
+Row  8 -> C8: Decilo | D8: Typical Floor | E8: [FORMULA=='Typical Floor BOQ  (T)'!$BB$95 | VAL=2429619.795] | F8: [FORMULA==E8/$D$21 | VAL=6496.309612299465] | G8: [FORMULA=='Typical Floor BOQ  (K)'!$AS$95 | VAL=480448.29000000004] | H8: [FORMULA==G8/$D$22 | VAL=2729.819829545455] | I8: [FORMULA==E8+G8 | VAL=2910068.085] | J8: [FORMULA==I8/$D$21 | VAL=7780.9307085561495] | K8: [FORMULA==I8/$D$22 | VAL=16534.47775568182]
+Row  9 -> C9: Difference with Decilo | D9: Typical Floor | E9: [FORMULA==E5-E8 | VAL=-134747.85499999952] | F9: [FORMULA==F5-F8 | VAL=-360.28838235294006] | G9: [FORMULA==G5-G8 | VAL=63085.523333333316] | H9: [FORMULA==H5-H8 | VAL=358.4404734848481] | I9: [FORMULA==I5-I8 | VAL=-71662.33166666608] | J9: [FORMULA==J5-J8 | VAL=-191.61051247771684] | K9: [FORMULA==K5-K8 | VAL=-407.1723390151492]
+Row 11 -> C11: Discount Structure
+Row 12 -> D12: Huliot  | E12: Astral | F12: Prince
+Row 13 -> B13: P | C13: Pipe | D13: 0.6 | E13: 0.65 | F13: 0.55
+Row 14 -> B14: F | C14: Fittings | D14: 0.6 | E14: 0.65 | F14: 0.55
+Row 15 -> B15: M | C15: MFT | D15: 0.6 | E15: 0.65 | F15: 0.55
+Row 16 -> B16: L | C16: Lubricant | D16: 0.45 | E16: 0.45 | F16: 0.45
+Row 17 -> B17: C | C17: Clamps | D17: 0.45 | E17: 0.45 | F17: 0.45
+Row 18 -> B18: S | C18: Speacial Fitting | D18: 0 | E18: 0 | F18: 0
+Row 21 -> C21: No of Toilets | D21: 374
+Row 22 -> C22: No of Kitchens | D22: 176
+
+================================================================================
+FILE 4: Huliot BOQ Summary For Supernova by Kanifnath Project, 13.07.2026.xlsx
+================================================================================
+Sheet dimensions: max_row=19, max_column=10
+Merged cell ranges:
+  B2:J2
+  B10:C11
+
+All non-empty cells:
+Row  2 -> B2: Huliot Summary Sheet- Supernova by Kanifnath
+Row  3 -> B3: Option | C3: Tower | D3: Tower Cost | E3: Per Toilet Cost | F3: Kitchen cost | G3: Per Kitchen Cost | H3: Grand Total Cost | I3: Per Toilet Cost | J3: Per Flat Cost
+Row  4 -> B4: HT Pro | C4: Typical Floor  | D4: [FORMULA=='Typical Floor BOQ  (T)'!$AQ$75 | VAL=5185867.577878785] | E4: [FORMULA==D4/$C$18 | VAL=8672.019361001314] | F4: [FORMULA=='Typical Floor BOQ  (K)'!$Y$75 | VAL=1221301.293333333] | G4: [FORMULA==F4/$C$19 | VAL=6637.507028985506] | H4: [FORMULA==F4+D4 | VAL=6407168.871212118] | I4: [FORMULA==H4/$C$18 | VAL=10714.329216073776] | J4: [FORMULA==H4/$C$19 | VAL=34821.56995223977]
+Row  5 -> B5: Hybrid | C5: Typical Floor  | D5: [FORMULA=='Typical Floor BOQ  (T)'!$AX$75 | VAL=7919933.046212121] | E5: [FORMULA==D5/$C$18 | VAL=13244.03519433465] | F5: [FORMULA=='Typical Floor BOQ  (K)'!$AF$75 | VAL=1738836.4066666667] | G5: [FORMULA==F5/$C$19 | VAL=9450.19786231884] | H5: [FORMULA==F5+D5 | VAL=9658769.452878788] | I5: [FORMULA==H5/$C$18 | VAL=16151.788382740448] | J5: [FORMULA==H5/$C$19 | VAL=52493.312243906454]
+Row  6 -> B6: Ultra Silent | C6: Typical Floor  | D6: [FORMULA=='Typical Floor BOQ  (T)'!$AJ$75 | VAL=8827542.346212123] | E6: [FORMULA==D6/$C$18 | VAL=14761.776498682479] | F6: [FORMULA=='Typical Floor BOQ  (K)'!$R$75 | VAL=1976148.806666667] | G6: [FORMULA==F6/$C$19 | VAL=10739.939166666669] | H6: [FORMULA==F6+D6 | VAL=10803691.15287879] | I6: [FORMULA==H6/$C$18 | VAL=18066.373165349145] | J6: [FORMULA==H6/$C$19 | VAL=58715.71278738473]
+Row 10 -> B10: Discount Structure
+Row 12 -> B12: Pipe | C12: 0.35
+Row 13 -> B13: Fittings | C13: 0.35
+Row 14 -> B14: MFT | C14: 0.35
+Row 15 -> B15: Lubricant | C15: 0.35
+Row 16 -> B16: Clamps | C16: 0.35
+Row 18 -> C18: 598
+Row 19 -> C19: 184
+
+================================================================================
+FILE 5: Huliot BOQ Summary Tribeca Lalbaug_10.12.2025- 02.11.2026 (1).xlsx
+================================================================================
+Sheet dimensions: max_row=20, max_column=11
+Merged cell ranges:
+  C2:K2
+  C3:C4
+  D3:D4
+  E3:F3
+  G3:H3
+  I3:I4
+  J3:J4
+  K3:K4
+  C10:D10
+
+All non-empty cells:
+Row  2 -> C2: Huliot Summary Sheet -Tribeca Lalbaug
+Row  3 -> C3: Option | D3: Tower | E3: Toilet Cost | G3: Kitchen Cost | I3: Grand Total Cost | J3: Per Toilet Cost | K3: Per Flat Cost
+Row  4 -> E4: Tower Cost | F4: Per Toilet Cost | G4: Tower Cost | H4: Per Kitchen Cost
+Row  5 -> C5: HT Pro | D5: Typical Floor | E5: [FORMULA=='Typical Floor BOQ  (T)'!$AE$75 | VAL=6729558.233333334] | F5: [FORMULA==E5/$D$19 | VAL=10514.934739583336] | G5: [FORMULA=='Typical Floor BOQ  (K)'!$U$75 | VAL=846988.7333333334] | H5: [FORMULA==G5/$D$20 | VAL=3529.1197222222227] | I5: [FORMULA==E5+G5 | VAL=7576546.966666668] | J5: [FORMULA==I5/$D$19 | VAL=11838.354635416668] | K5: [FORMULA==I5/$D$20 | VAL=31568.94569444445]
+Row  6 -> C6: Hybrid | D6: Typical Floor | E6: [FORMULA=='Typical Floor BOQ  (T)'!$AL$75 | VAL=10220448.366666669] | F6: [FORMULA==E6/$D$19 | VAL=15969.45057291667] | G6: [FORMULA=='Typical Floor BOQ  (K)'!$AB$75 | VAL=1250566.8666666667] | H6: [FORMULA==G6/$D$20 | VAL=5210.695277777778] | I6: [FORMULA==E6+G6 | VAL=11471015.233333336] | J6: [FORMULA==I6/$D$19 | VAL=17923.46130208334] | K6: [FORMULA==I6/$D$20 | VAL=47795.89680555557]
+Row  7 -> C7: Ultra Silent | D7: Typical Floor | E7: [FORMULA=='Typical Floor BOQ  (T)'!$X$75 | VAL=11276461.366666669] | F7: [FORMULA==E7/$D$19 | VAL=17619.47088541667] | G7: [FORMULA=='Typical Floor BOQ  (K)'!$N$75 | VAL=1415164.8666666667] | H7: [FORMULA==G7/$D$20 | VAL=5896.520277777778] | I7: [FORMULA==E7+G7 | VAL=12691626.233333336] | J7: [FORMULA==I7/$D$19 | VAL=19830.665989583336] | K7: [FORMULA==I7/$D$20 | VAL=52881.77597222223]
+Row 10 -> C10: Discount Structure
+Row 11 -> B11: P | C11: Pipe | D11: 0.5
+Row 12 -> B12: F | C12: Fittings | D12: 0.5
+Row 13 -> B13: H | C13: HAFF Stack | D13: 0.5
+Row 14 -> B14: M | C14: MFT | D14: 0.5
+Row 15 -> B15: L | C15: Lubricant | D15: 0.45
+Row 16 -> B16: C | C16: Clamps | D16: 0.45
+Row 19 -> C19: No of Toilets | D19: 640
+Row 20 -> C20: No of Kitchens | D20: 240
+
+================================================================================
+FILE 6: Huliot BOQ Summary_CASA Terazza_04.11.2026.xlsx
+================================================================================
+Sheet dimensions: max_row=20, max_column=13
+Merged cell ranges:
+  C2:M2
+  C3:C4
+  D3:D4
+  E3:F3
+  G3:H3
+  I3:J3
+  K3:K4
+  L3:L4
+  M3:M4
+  C11:D11
+
+All non-empty cells:
+Row  2 -> C2: Huliot Summary Sheet - Casa Terraza
+Row  3 -> C3: Option | D3: Tower | E3: Toilet Cost | G3: Kitchen Cost | I3: Diversion Cost | K3: Grand Total Cost | L3: Per Toilet Cost | M3: Per Flat Cost
+Row  4 -> E4: Tower Cost | F4: Per Toilet Cost | G4: Tower Cost | H4: Per Kitchen Cost | I4: Tower Cost | J4: Per Toilet Cost
+Row  5 -> C5: HT Pro | D5: Typical Floor + Diversion | E5: [FORMULA=='Typical Floor BOQ  (T)'!$EB$59 | VAL=2991445.773333333] | F5: [FORMULA==E5/$D$19 | VAL=5665.616994949494] | G5: [FORMULA=='Typical Floor BOQ  (K)'!$BZ$59 | VAL=1529204.3] | H5: [FORMULA==G5/$D$20 | VAL=5309.737152777778] | I5: [FORMULA=='Diversion BOQ '!$AI$41 | VAL=196361.4584848485] | J5: [FORMULA==I5/$D$19 | VAL=371.89670167584944] | K5: [FORMULA==E5+G5+I5 | VAL=4717011.531818181] | L5: [FORMULA==K5/$D$19 | VAL=8933.73396177686] | M5: [FORMULA==K5/$D$20 | VAL=16378.512263257573]
+Row  6 -> C6: Hybrid | D6: Typical Floor + Diversion | E6: [FORMULA=='Typical Floor BOQ  (T)'!$EI$59 | VAL=4373915.736666666] | F6: [FORMULA==E6/$D$19 | VAL=8283.931319444444] | G6: [FORMULA=='Typical Floor BOQ  (K)'!$CG$59 | VAL=1955631.99] | H6: [FORMULA==G6/$D$20 | VAL=6790.3888541666665] | I6: [FORMULA=='Diversion BOQ '!$AB$41 | VAL=268576.81893939397] | J6: [FORMULA==I6/$D$19 | VAL=508.66821768824616] | K6: [FORMULA==E6+G6+I6 | VAL=6598124.545606061] | L6: [FORMULA==K6/$D$19 | VAL=12496.448003041782] | M6: [FORMULA==K6/$D$20 | VAL=22910.15467224327]
+Row  7 -> C7: Ultra Silent | D7: Typical Floor + Diversion | E7: [FORMULA=='Typical Floor BOQ  (T)'!$DU$59 | VAL=5272758.703333335] | F7: [FORMULA==E7/$D$19 | VAL=9986.285422979801] | G7: [FORMULA=='Typical Floor BOQ  (K)'!$BS$59 | VAL=2484268.323333334] | H7: [FORMULA==G7/$D$20 | VAL=8625.931678240744] | I7: [FORMULA=='Diversion BOQ '!$AB$41 | VAL=268576.81893939397] | J7: [FORMULA==I7/$D$19 | VAL=508.66821768824616] | K7: [FORMULA==E7+G7+I7 | VAL=8025603.8456060635] | L7: [FORMULA==K7/$D$19 | VAL=15200.007283344818] | M7: [FORMULA==K7/$D$20 | VAL=27866.680019465497]
+Row 11 -> C11: Discount Structure
+Row 12 -> B12: P | C12: Pipe | D12: 0.35
+Row 13 -> B13: F | C13: Fittings | D13: 0.35
+Row 14 -> B14: M | C14: MFT | D14: 0.35
+Row 15 -> B15: L | C15: Lubricant | D15: 0.35
+Row 16 -> B16: C | C16: Clamps | D16: 0.35
+Row 19 -> C19: No of Toilets | D19: 528
+Row 20 -> C20: No of Kitchens | D20: 288

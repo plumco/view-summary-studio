@@ -1,0 +1,21 @@
+# Raw client BOQ Excel files (keep private, do not push)
+data/raw_boq/*.xlsx
+
+# Temporary and test Excel files
+temp_*.xlsx
+tmp_*.xlsx
+test_reg_*.xlsx
+
+# Python cache
+backend/__pycache__/
+__pycache__/
+*.pyc
+*.pyo
+
+# Flutter / IDE cache (keep huliot_flutter_app/build/web/ for serving)
+huliot_flutter_app/.dart_tool/
+huliot_flutter_app/.idea/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
