@@ -309,7 +309,7 @@ def extract_floor_count(ws, default_floors=20):
     hdr_scan_max = min(18, ws.max_row)
     for r in range(8, hdr_scan_max + 1):
         for c in range(1, ws.max_column + 1):
-            hv = str(ws.cell(r, c).value or "").strip().lower()
+            hv = re.sub(r"\s+", " ", str(ws.cell(r, c).value or "")).strip().lower()
             if not hv:
                 continue
             if floor_col is None and (
@@ -327,6 +327,13 @@ def extract_floor_count(ws, default_floors=20):
         vals = []
         for r in range(floor_hdr_row + 1, min(floor_hdr_row + 35, ws.max_row + 1)):
             v = ws.cell(r, floor_col).value
+            if isinstance(v, str) and v.strip().startswith("="):
+                m_ref = re.match(r"^=\s*\$?([A-Z]{1,3})\$?(\d+)\s*$", v.strip(), re.I)
+                if m_ref:
+                    try:
+                        v = ws[f"{m_ref.group(1).upper()}{int(m_ref.group(2))}"].value
+                    except Exception:
+                        v = None
             if isinstance(v, (int, float)) and not isinstance(v, bool) and 1 <= v <= 120 and abs(v - round(v)) < 1e-6:
                 vals.append(int(round(v)))
         if vals:
