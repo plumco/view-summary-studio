@@ -66,6 +66,7 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
   final TextEditingController projectNameCtrl = TextEditingController();
   final TextEditingController toiletsCtrl = TextEditingController(text: '500');
   final TextEditingController kitchensCtrl = TextEditingController(text: '250');
+  final TextEditingController floorsCtrl = TextEditingController(text: '20');
   final TextEditingController discPipeCtrl = TextEditingController(text: '35');
   final TextEditingController discFitCtrl = TextEditingController(text: '35');
   final TextEditingController discMftCtrl = TextEditingController(text: '35');
@@ -193,6 +194,7 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
       projectNameCtrl.clear();
       toiletsCtrl.clear();
       kitchensCtrl.clear();
+      floorsCtrl.clear();
       discPipeCtrl.text = '35';
       discFitCtrl.text = '35';
       discMftCtrl.text = '35';
@@ -245,6 +247,7 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
           projectNameCtrl.text = data['project_name'] ?? 'Huliot Project';
           toiletsCtrl.text = (data['estimated_toilets'] ?? 500).toString();
           kitchensCtrl.text = (data['estimated_kitchens'] ?? 250).toString();
+          floorsCtrl.text = (data['floors_count'] ?? 20).toString();
           final disc = ((data['baseline_discount'] ?? 0.35) * 100).round().toString();
           final learned = data['learned_discounts'] as Map<String, dynamic>?;
           discPipeCtrl.text = learned != null && learned['P'] != null
@@ -289,6 +292,9 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
       request.fields['project_name'] = projectNameCtrl.text;
       request.fields['num_toilets'] = toiletsCtrl.text;
       request.fields['num_kitchens'] = kitchensCtrl.text;
+      if (floorsCtrl.text.trim().isNotEmpty) {
+        request.fields['num_floors'] = floorsCtrl.text.trim();
+      }
       request.fields['discount_p'] = ((double.tryParse(discPipeCtrl.text) ?? 35) / 100).toString();
       request.fields['discount_f'] = ((double.tryParse(discFitCtrl.text) ?? 35) / 100).toString();
       request.fields['discount_m'] = ((double.tryParse(discMftCtrl.text) ?? 35) / 100).toString();
@@ -343,6 +349,9 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
       }
       if (kitchensCtrl.text.trim().isNotEmpty) {
         request.fields['num_kitchens'] = kitchensCtrl.text.trim();
+      }
+      if (floorsCtrl.text.trim().isNotEmpty) {
+        request.fields['num_floors'] = floorsCtrl.text.trim();
       }
       request.fields['discount_p'] = ((double.tryParse(discPipeCtrl.text) ?? 35) / 100).toString();
       request.fields['discount_f'] = ((double.tryParse(discFitCtrl.text) ?? 35) / 100).toString();
@@ -866,6 +875,25 @@ class _MainStudioScreenState extends State<MainStudioScreen> {
                               decoration: InputDecoration(
                                 labelText: 'No. of Kitchens / Flats',
                                 prefixIcon: const Icon(Icons.kitchen_outlined, size: 18),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: TextField(
+                              controller: floorsCtrl,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: analysisResult?['floors_detected'] == false
+                                    ? 'Typical Floors (Default - Verify!)'
+                                    : 'No. of Typical Floors',
+                                prefixIcon: Icon(
+                                  Icons.layers_outlined,
+                                  size: 18,
+                                  color: analysisResult?['floors_detected'] == false ? Colors.orange : null,
+                                ),
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                               ),

@@ -251,6 +251,107 @@ def resolve_boq_cell(ws, target_option):
     return f"{sheet_ref}!${opt_col}${total_row}"
 
 
+def extract_floor_count(ws, default_floors=20):
+    """
+    Multi-signal typical floor count detector:
+    1. Bottom/metadata notes scan (cols 1..6) for 'No of Floor' / '1st to Nth' / 'G+N'.
+    2. Dynamic header column scan (rows 8..18) for 'Total Typical Floor' / 'Typical Floor' / 'Floors'.
+    3. Math cross-check between 'Total Qty' and 'Grand Total Qty' columns.
+    Returns (floors_count, floors_text, detected_bool, source_str).
+    """
+    if ws is None:
+        return default_floors, "", False, "default"
+
+    from collections import Counter
+
+    # Signal 1: Bottom & metadata notes scan (cols 1..6, rows 1..max_row)
+    for r in range(15, ws.max_row + 1):
+        for c in range(1, min(7, ws.max_column + 1)):
+            val = str(ws.cell(r, c).value or "").strip()
+            if not val:
+                continue
+            vl = val.lower()
+            if "no of floor" in vl or "no. of floor" in vl or "no of typical floor" in vl or "no. of typical floor" in vl:
+                m_range = re.search(r"1st\s*to\s*(\d+)(?:st|nd|rd|th)?\s*floor", vl)
+                if m_range:
+                    n = int(m_range.group(1))
+                    if 1 <= n <= 120:
+                        return n, val, True, "notes"
+                m_gp = re.search(r"\bg\s*\+\s*(\d+)\b", vl)
+                if m_gp:
+                    n = int(m_gp.group(1))
+                    if 1 <= n <= 120:
+                        return n, val, True, "notes"
+                m_num = re.search(r"(\d+)\s*(?:typical|floor|flr)", vl)
+                if m_num:
+                    n = int(m_num.group(1))
+                    if 1 <= n <= 120:
+                        return n, val, True, "notes"
+                if "+" in val:
+                    rhs = val.split(":", 1)[-1] if ":" in val else val
+                    parts = [p.strip() for p in rhs.split("+") if p.strip()]
+                    if parts:
+                        return len(parts), val, True, "notes"
+                for nc in range(c + 1, min(c + 4, ws.max_column + 1)):
+                    nv = ws.cell(r, nc).value
+                    if isinstance(nv, (int, float)) and 1 <= int(nv) <= 120 and nv == int(nv):
+                        return int(nv), f"{val} {int(nv)}".strip(), True, "notes"
+                    if isinstance(nv, str) and nv.strip():
+                        mn = re.search(r"(\d+)\s*(?:typical|floor|flr)?", nv.strip(), re.I)
+                        if mn and 1 <= int(mn.group(1)) <= 120:
+                            return int(mn.group(1)), f"{val} {nv.strip()}".strip(), True, "notes"
+
+    # Signal 2: Dynamic header column scan (rows 8..18, all columns)
+    floor_col = None
+    floor_hdr_row = None
+    qty_col = None
+    grand_qty_col = None
+    hdr_scan_max = min(18, ws.max_row)
+    for r in range(8, hdr_scan_max + 1):
+        for c in range(1, ws.max_column + 1):
+            hv = str(ws.cell(r, c).value or "").strip().lower()
+            if not hv:
+                continue
+            if floor_col is None and (
+                "total typical floor" in hv
+                or hv in ("typical floor", "typical floors", "floors", "no of floor", "no. of floor", "no of typical floor")
+            ):
+                floor_col = c
+                floor_hdr_row = r
+            if qty_col is None and ("total qty" in hv and "grand" not in hv):
+                qty_col = c
+            if grand_qty_col is None and ("grand total qty" in hv or "grand total" in hv and "qty" in hv):
+                grand_qty_col = c
+
+    if floor_col and floor_hdr_row:
+        vals = []
+        for r in range(floor_hdr_row + 1, min(floor_hdr_row + 35, ws.max_row + 1)):
+            v = ws.cell(r, floor_col).value
+            if isinstance(v, (int, float)) and not isinstance(v, bool) and 1 <= v <= 120 and abs(v - round(v)) < 1e-6:
+                vals.append(int(round(v)))
+        if vals:
+            top_val = Counter(vals).most_common(1)[0][0]
+            return top_val, f"{top_val} Typical Floors", True, "column_header"
+
+    # Signal 3: Math cross-check (Grand Total Qty / Total Qty)
+    if qty_col and grand_qty_col:
+        ratios = []
+        start_r = (floor_hdr_row or 14) + 1
+        for r in range(start_r, min(start_r + 40, ws.max_row + 1)):
+            qv = ws.cell(r, qty_col).value
+            gqv = ws.cell(r, grand_qty_col).value
+            if isinstance(qv, (int, float)) and isinstance(gqv, (int, float)) and qv > 0 and gqv >= qv:
+                ratio = round(gqv / qv)
+                if 1 <= ratio <= 120 and abs(gqv - qv * ratio) <= max(1.0, 0.05 * gqv):
+                    ratios.append(int(ratio))
+        if ratios:
+            top_ratio, cnt = Counter(ratios).most_common(1)[0]
+            if cnt >= 2:
+                return top_ratio, f"{top_ratio} Typical Floors", True, "math_ratio"
+
+    return default_floors, "", False, "default"
+
+
 def extract_project_towers(wb, ref_ws=None, default_floors=20, default_toilets=500, default_kitchens=250, sheet_cls=None):
     """
     Discovers multi-tower configuration across sheets using logic-first inspection:
@@ -277,14 +378,11 @@ def extract_project_towers(wb, ref_ws=None, default_floors=20, default_toilets=5
             ts = ws.title
             t_row = None
             k_row = None
-            flrs = default_floors
+            flrs, _, _, _ = extract_floor_count(ws, default_floors=default_floors)
             for r in range(15, ws.max_row + 1):
                 v = str(ws.cell(r, 1).value or "").lower()
                 if "no of floor" in v or "no. of floor" in v:
                     t_row = r
-                    m = re.search(r"(\d+)", v)
-                    if m:
-                        flrs = int(m.group(1))
                     break
 
             # Count shafts in row 13
@@ -484,6 +582,8 @@ def analyze_workbook(wb_path, knowledge_db_path=None, original_filename=None):
     t_shafts = 0
     k_shafts = 0
     floors_count = 20
+    floors_detected = False
+    floors_source = "default"
 
     if ref_ws:
         for c in range(4, ref_ws.max_column + 1):
@@ -496,19 +596,9 @@ def analyze_workbook(wb_path, knowledge_db_path=None, original_filename=None):
             elif re.search(r"K[-_]?\d|K-|KITCHEN", val, re.IGNORECASE):
                 k_shafts += 1
 
-        for r in range(15, ref_ws.max_row + 1):
-            val = str(ref_ws.cell(r, 1).value or "").strip()
-            if "no of floor" in val.lower() or "no. of floor" in val.lower():
-                num_floors_text = val
-                m = re.search(r"(\d+)\s*(?:typical|floor|flr)", val, re.IGNORECASE)
-                if m:
-                    floors_count = int(m.group(1))
-                elif "+" in val:
-                    rhs = val.split(":", 1)[-1] if ":" in val else val
-                    parts = [p.strip() for p in rhs.split("+") if p.strip()]
-                    if parts:
-                        floors_count = len(parts)
-                break
+        floors_count, detected_flr_text, floors_detected, floors_source = extract_floor_count(ref_ws, default_floors=20)
+        if detected_flr_text:
+            num_floors_text = detected_flr_text
 
     # 3. Extract Explicit Quantities from bottom notes (e.g. Nos of Toilet =20*34 or inline 'No of Toilets : 33  No of Kitchens : 28')
     est_toilets = None
@@ -713,6 +803,8 @@ def analyze_workbook(wb_path, knowledge_db_path=None, original_filename=None):
         "shafts": {"toilet_shafts": t_shafts, "kitchen_shafts": k_shafts},
         "floors_info": num_floors_text,
         "floors_count": floors_count,
+        "floors_detected": floors_detected,
+        "floors_source": floors_source,
         "estimated_toilets": est_toilets,
         "estimated_kitchens": est_kitchens,
         "detected_options": detected_options,
@@ -1719,6 +1811,7 @@ def train_from_workbook(wb_path, knowledge_db_path=None, original_filename=None,
                 "kitchens": meta["estimated_kitchens"]
             },
             "floors_count": meta["floors_count"],
+            "floors_source": meta.get("floors_source", "default"),
             "baseline_discount": meta["baseline_discount"],
             "sheetnames": wb.sheetnames
         }
