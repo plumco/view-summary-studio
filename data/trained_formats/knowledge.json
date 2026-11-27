@@ -86,7 +86,7 @@
         "Typical Floor BOQ ",
         "Summary Sheet"
       ],
-      "trained_at": "2026-11-26T21:18:27"
+      "trained_at": "2026-11-27T16:36:32"
     },
     {
       "training_type": "full_summary",
@@ -146,7 +146,7 @@
         "Typical Floor BOQ G to 7",
         "Diversion BOQ 4 Floor "
       ],
-      "trained_at": "2026-11-26T21:18:28"
+      "trained_at": "2026-11-27T16:36:33"
     },
     {
       "training_type": "full_summary",
@@ -259,7 +259,7 @@
         "Summary Sheet",
         "Typical Floor BOQ "
       ],
-      "trained_at": "2026-11-26T21:18:28"
+      "trained_at": "2026-11-27T16:36:33"
     },
     {
       "training_type": "full_summary",
@@ -324,7 +324,7 @@
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor (V)"
       ],
-      "trained_at": "2026-11-26T21:18:28"
+      "trained_at": "2026-11-27T16:36:34"
     },
     {
       "training_type": "full_summary",
@@ -414,7 +414,7 @@
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor (V)"
       ],
-      "trained_at": "2026-11-26T21:18:28"
+      "trained_at": "2026-11-27T16:36:34"
     },
     {
       "training_type": "full_summary",
@@ -508,7 +508,7 @@
         "Design Sheet Typical Floor (V)",
         "Design Sheet Diversion (Hori.) "
       ],
-      "trained_at": "2026-11-26T21:18:29"
+      "trained_at": "2026-11-27T16:36:35"
     },
     {
       "training_type": "raw_layout",
@@ -543,12 +543,13 @@
         "kitchens": 72
       },
       "floors_count": 36,
+      "floors_source": "notes",
       "baseline_discount": 0.35,
       "sheetnames": [
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor"
       ],
-      "trained_at": "2026-11-26T21:18:24"
+      "trained_at": "2026-11-27T16:36:28"
     },
     {
       "training_type": "raw_layout",
@@ -601,8 +602,7 @@
     },
     {
       "training_type": "raw_layout",
-      "summary_sheet_name": null,
-      "project_title": "Huliot Summary Sheet - Aster 108, Punawale C (2 Towers)",
+      "project_title": "Aster 108, Punawale C (2 Towers)",
       "filename": "Huliot BOQ Aster 108 Punawale Tower C_17.1.26_22.1.26.xlsx",
       "archetype": "multi_sheet_towers",
       "tower_count": 2,
@@ -612,85 +612,37 @@
       ],
       "has_diversion": true,
       "diversion_sheet_count": 1,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
-          "formulas": {
-            "E": "=SUM('Commercial Area Toilets'!$Y$41,'Typical Floor Tower C '!$AG$65)",
-            "F": "=E5/$D$18",
-            "G": "=SUM('Commercial Area Toilets'!$Y$42,'Typical Floor Tower C '!$AG$66)",
-            "H": "=G5/$D$19",
-            "I": "='Diversion BOQ  Tower C '!$AT$74",
-            "J": "=I5/$D$18",
-            "K": "=E5+G5+I5",
-            "L": "=K5/$D$20",
-            "M": "=K5/$D$18",
-            "N": "=K5/$D$19"
-          }
+          "formulas": {}
         },
         {
           "option": "Hybrid",
-          "formulas": {
-            "E": "=SUM('Commercial Area Toilets'!$AF$41,'Typical Floor Tower C '!$AN$65)",
-            "F": "=E6/$D$18",
-            "G": "=SUM('Commercial Area Toilets'!$AF$42,'Typical Floor Tower C '!$AN$66)",
-            "H": "=G6/$D$19",
-            "I": "='Diversion BOQ  Tower C '!$AM$74",
-            "J": "=I6/$D$18",
-            "K": "=E6+G6+I6",
-            "L": "=K6/$D$20",
-            "M": "=K6/$D$18",
-            "N": "=K6/$D$19"
-          }
+          "formulas": {}
         },
         {
           "option": "Ultra Silent",
-          "formulas": {
-            "E": "=SUM('Commercial Area Toilets'!$R$41,'Typical Floor Tower C '!$Z$65)",
-            "F": "=E7/$D$18",
-            "G": "=SUM('Commercial Area Toilets'!$R$42,'Typical Floor Tower C '!$Z$66)",
-            "H": "=G7/$D$19",
-            "I": "='Diversion BOQ  Tower C '!$AM$74",
-            "J": "=I7/$D$18",
-            "K": "=E7+G7+I7",
-            "L": "=K7/$D$20",
-            "M": "=K7/$D$18",
-            "N": "=K7/$D$19"
-          }
+          "formulas": {}
         }
       ],
-      "discounts": {
-        "P": {
-          "name": "Pipe",
-          "discount": 0.35
-        },
-        "F": {
-          "name": "Fittings",
-          "discount": 0.35
-        },
-        "M": {
-          "name": "MFT",
-          "discount": 0.35
-        },
-        "L": {
-          "name": "Lubricant",
-          "discount": 0.35
-        },
-        "C": {
-          "name": "Clamps",
-          "discount": 0.35
-        }
-      },
       "quantities": {
-        "toilets": 420,
+        "toilets": 260,
         "kitchens": 84
       },
+      "floors_count": 21,
+      "floors_source": "notes",
+      "baseline_discount": 0.35,
       "sheetnames": [
         "Typical Floor Tower C ",
         "Diversion BOQ  Tower C ",
         "Commercial Area Toilets",
         "Design Sheet Typical Floor (V)"
-      ]
+      ],
+      "trained_at": "2026-11-27T16:36:28"
     },
     {
       "training_type": "full_summary",
@@ -999,10 +951,11 @@
         }
       ],
       "quantities": {
-        "toilets": 252,
+        "toilets": 152,
         "kitchens": 84
       },
       "floors_count": 21,
+      "floors_source": "notes",
       "baseline_discount": 0.35,
       "sheetnames": [
         "Typical Floor Tower A",
@@ -1010,7 +963,7 @@
         "Commercial Area Toilets A",
         "Design Sheet Typical Floor (V)"
       ],
-      "trained_at": "2026-11-26T21:18:23"
+      "trained_at": "2026-11-27T16:36:27"
     },
     {
       "training_type": "raw_layout",
@@ -1044,7 +997,8 @@
         "toilets": 500,
         "kitchens": 0
       },
-      "floors_count": 20,
+      "floors_count": 1,
+      "floors_source": "column_header",
       "baseline_discount": 0.35,
       "sheetnames": [
         "Commercial Area Toilets",
@@ -1052,7 +1006,7 @@
         "Design Sheet Typical Floor (V)",
         "Design Sheet Diversion (Hori.) "
       ],
-      "trained_at": "2026-11-26T21:18:22"
+      "trained_at": "2026-11-27T16:36:26"
     },
     {
       "training_type": "raw_layout",
@@ -1084,10 +1038,11 @@
         }
       ],
       "quantities": {
-        "toilets": 252,
+        "toilets": 152,
         "kitchens": 84
       },
       "floors_count": 21,
+      "floors_source": "notes",
       "baseline_discount": 0.35,
       "sheetnames": [
         "Typical Floor Tower B",
@@ -1095,7 +1050,7 @@
         "Commercial Area Toilets B",
         "Design Sheet Typical Floor (V)"
       ],
-      "trained_at": "2026-11-26T21:18:23"
+      "trained_at": "2026-11-27T16:36:27"
     },
     {
       "training_type": "raw_layout",
@@ -1133,12 +1088,13 @@
         "kitchens": 432
       },
       "floors_count": 27,
+      "floors_source": "notes",
       "baseline_discount": 0.35,
       "sheetnames": [
         "Typical Floor BOQ ",
         "FLAT MATRIX"
       ],
-      "trained_at": "2026-11-26T21:18:24"
+      "trained_at": "2026-11-27T16:36:29"
     },
     {
       "training_type": "raw_layout",
@@ -1175,6 +1131,7 @@
         "kitchens": 461
       },
       "floors_count": 18,
+      "floors_source": "notes",
       "baseline_discount": 0.35,
       "sheetnames": [
         "Typical Floor BOQ ",
@@ -1186,179 +1143,96 @@
         "Design Sheet Diversion (Hori.) ",
         "Sheet"
       ],
-      "trained_at": "2026-11-26T21:18:25"
+      "trained_at": "2026-11-27T16:36:30"
     },
     {
       "training_type": "raw_layout",
-      "summary_sheet_name": null,
-      "project_title": "Huliot Summary Sheet - Kingdome 57 Wakad project",
+      "project_title": "Kingdome 57 Wakad project",
       "filename": "Huliot BOQ Kingdom 57 28.06.2025 25.08.2025.xlsx",
       "archetype": "combined",
       "tower_count": 1,
-      "tower_names": [],
+      "tower_names": [
+        "Typical Floor"
+      ],
       "has_diversion": true,
       "diversion_sheet_count": 1,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$BZ$64",
-            "F": "=E5/$D$18",
-            "G": "='Typical Floor BOQ '!$BZ$65",
-            "H": "=G5/$D$19",
-            "I": "='Diversion BOQ '!$DX$60",
-            "J": "=I5/$D$18",
-            "K": "=E5+G5+I5",
-            "L": "=K5/$D$20",
-            "M": "=K5/$D$18",
-            "N": "=K5/$D$19"
-          }
+          "formulas": {}
         },
         {
           "option": "Hybrid",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$CG$64",
-            "F": "=E6/$D$18",
-            "G": "='Typical Floor BOQ '!$CG$65",
-            "H": "=G6/$D$19",
-            "I": "='Diversion BOQ '!$DQ$60",
-            "J": "=I6/$D$18",
-            "K": "=E6+G6+I6",
-            "L": "=K6/$D$20",
-            "M": "=K6/$D$18",
-            "N": "=K6/$D$19"
-          }
+          "formulas": {}
         },
         {
           "option": "Ultra Silent",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$BS$64",
-            "F": "=E7/$D$18",
-            "G": "='Typical Floor BOQ '!$BS$65",
-            "H": "=G7/$D$19",
-            "I": "='Diversion BOQ '!$DQ$60",
-            "J": "=I7/$D$18",
-            "K": "=E7+G7+I7",
-            "L": "=K7/$D$20",
-            "M": "=K7/$D$18",
-            "N": "=K7/$D$19"
-          }
+          "formulas": {}
         }
       ],
-      "discounts": {
-        "P": {
-          "name": "Pipe",
-          "discount": 0.55
-        },
-        "F": {
-          "name": "Fittings",
-          "discount": 0.55
-        },
-        "M": {
-          "name": "MFT",
-          "discount": 0.55
-        },
-        "L": {
-          "name": "Lubricant",
-          "discount": 0.45
-        },
-        "C": {
-          "name": "Clamps",
-          "discount": 0.45
-        }
-      },
       "quantities": {
         "toilets": 500,
         "kitchens": 250
       },
+      "floors_count": 24,
+      "floors_source": "notes",
+      "baseline_discount": 0.55,
       "sheetnames": [
         "Typical Floor BOQ ",
         "Diversion BOQ ",
         "Design Sheet Typical Floor (V)",
         "Design Sheet Diversion (Hori.) "
-      ]
+      ],
+      "trained_at": "2026-11-27T16:36:31"
     },
     {
       "training_type": "raw_layout",
-      "summary_sheet_name": null,
-      "project_title": "Huliot Summary Sheet - Satva Commercial Project",
+      "project_title": "Satva Commercial Project",
       "filename": "Huliot BOQ Satva Commercial STD Length 14.10.2025, 11.11.2025.xlsx",
       "archetype": "combined",
       "tower_count": 1,
-      "tower_names": [],
+      "tower_names": [
+        "Typical Floor"
+      ],
       "has_diversion": true,
       "diversion_sheet_count": 1,
+      "has_rainwater": true,
+      "rainwater_sheet_count": 1,
+      "rainwater_sheet_names": [
+        "Rain water BOQ"
+      ],
       "options": [
         {
           "option": "HT Pro",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$AI$108",
-            "F": "=E5/$D$18",
-            "G": "='Diversion BOQ '!$AL$52",
-            "H": "=G5/$D$18",
-            "I": "=E5+G5",
-            "J": "=I5/$D$20",
-            "K": "=I5/$D$18"
-          }
+          "formulas": {}
         },
         {
           "option": "Hybrid",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$AP$108",
-            "F": "=E6/$D$18",
-            "G": "='Diversion BOQ '!$AE$52",
-            "H": "=G6/$D$18",
-            "I": "=E6+G6",
-            "J": "=I6/$D$20",
-            "K": "=I6/$D$18"
-          }
+          "formulas": {}
         },
         {
           "option": "Ultra Silent",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$AB$108",
-            "F": "=E7/$D$18",
-            "G": "='Diversion BOQ '!$AE$52",
-            "H": "=G7/$D$18",
-            "I": "=E7+G7",
-            "J": "=I7/$D$20",
-            "K": "=I7/$D$18"
-          }
+          "formulas": {}
         }
       ],
-      "discounts": {
-        "P": {
-          "name": "Pipe",
-          "discount": 0.55
-        },
-        "F": {
-          "name": "Fittings",
-          "discount": 0.55
-        },
-        "M": {
-          "name": "MFT",
-          "discount": 0.55
-        },
-        "L": {
-          "name": "Lubricant",
-          "discount": 0.55
-        },
-        "C": {
-          "name": "Clamps",
-          "discount": 0.55
-        }
-      },
       "quantities": {
         "toilets": 68,
-        "kitchens": "No of Kitchens"
+        "kitchens": 0
       },
+      "floors_count": 14,
+      "floors_source": "notes",
+      "baseline_discount": 0.55,
       "sheetnames": [
         "Typical Floor BOQ ",
         "Diversion BOQ ",
         "Rain water BOQ",
         "Design Sheet Typical Floor (V)",
         "Design Sheet Diversion (Hori.) "
-      ]
+      ],
+      "trained_at": "2026-11-27T16:36:32"
     },
     {
       "training_type": "raw_layout",
@@ -1399,6 +1273,7 @@
         "kitchens": 1680
       },
       "floors_count": 35,
+      "floors_source": "column_header",
       "baseline_discount": 0.35,
       "sheetnames": [
         "Tower 1",
@@ -1410,7 +1285,7 @@
         "Tower 7",
         "Design Sheet Typical Floor (V)"
       ],
-      "trained_at": "2026-11-26T21:18:30"
+      "trained_at": "2026-11-27T16:36:36"
     },
     {
       "training_type": "raw_layout",
@@ -1445,12 +1320,13 @@
         "kitchens": 272
       },
       "floors_count": 34,
+      "floors_source": "notes",
       "baseline_discount": 0.35,
       "sheetnames": [
         "Typical Floor BOQ ",
         "Design Sheet Typical Floor (V)"
       ],
-      "trained_at": "2026-11-26T21:18:31"
+      "trained_at": "2026-11-27T16:36:36"
     },
     {
       "training_type": "raw_layout",
@@ -1489,6 +1365,7 @@
         "kitchens": 624
       },
       "floors_count": 26,
+      "floors_source": "notes",
       "baseline_discount": 0.35,
       "sheetnames": [
         "T2",
@@ -1498,7 +1375,7 @@
         "T6",
         "Design Sheet Typical Floor (V)"
       ],
-      "trained_at": "2026-11-26T21:18:31"
+      "trained_at": "2026-11-27T16:36:37"
     },
     {
       "training_type": "full_summary",
@@ -1587,7 +1464,7 @@
         "Typical Floor BOQ ",
         "FLAT MATRIX"
       ],
-      "trained_at": "2026-11-26T21:18:31"
+      "trained_at": "2026-11-27T16:36:38"
     },
     {
       "training_type": "full_summary",
@@ -1611,88 +1488,47 @@
       "sheetnames": [
         "Summary Sheet"
       ],
-      "trained_at": "2026-11-26T21:18:31"
+      "trained_at": "2026-11-27T16:36:38"
     },
     {
       "training_type": "raw_layout",
-      "summary_sheet_name": null,
-      "project_title": "Huliot Summary Sheet - RSV CANTEEN",
+      "project_title": "RSV CANTEEN",
       "filename": "Huliot BOQ RSV CANTEEN 26.08.2025.xlsx",
       "archetype": "combined",
       "tower_count": 1,
-      "tower_names": [],
+      "tower_names": [
+        "Typical Floor"
+      ],
       "has_diversion": false,
       "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
       "options": [
         {
           "option": "HT Pro",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$DB$65",
-            "F": "=E5/$D$18",
-            "G": "='Typical Floor BOQ '!$DB$66",
-            "H": "=G5/$D$19",
-            "I": "=E5+G5",
-            "J": "=I5/$D$20",
-            "K": "=I5/$D$18",
-            "L": "=I5/$D$19"
-          }
+          "formulas": {}
         },
         {
           "option": "Hybrid",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$DI$65",
-            "F": "=E6/$D$18",
-            "G": "='Typical Floor BOQ '!$DI$66",
-            "H": "=G6/$D$19",
-            "I": "=E6+G6",
-            "J": "=I6/$D$20",
-            "K": "=I6/$D$18",
-            "L": "=I6/$D$19"
-          }
+          "formulas": {}
         },
         {
           "option": "Ultra Silent",
-          "formulas": {
-            "E": "='Typical Floor BOQ '!$CU$65",
-            "F": "=E7/$D$18",
-            "G": "='Typical Floor BOQ '!$CU$66",
-            "H": "=G7/$D$19",
-            "I": "=E7+G7",
-            "J": "=I7/$D$20",
-            "K": "=I7/$D$18",
-            "L": "=I7/$D$19"
-          }
+          "formulas": {}
         }
       ],
-      "discounts": {
-        "P": {
-          "name": "Pipe",
-          "discount": 0.35
-        },
-        "F": {
-          "name": "Fittings",
-          "discount": 0.35
-        },
-        "M": {
-          "name": "MFT",
-          "discount": 0.35
-        },
-        "L": {
-          "name": "Lubricant",
-          "discount": 0.35
-        },
-        "C": {
-          "name": "Clamps",
-          "discount": 0.35
-        }
-      },
       "quantities": {
         "toilets": 33,
         "kitchens": 28
       },
+      "floors_count": 3,
+      "floors_source": "notes",
+      "baseline_discount": 0.35,
       "sheetnames": [
         "Typical Floor BOQ "
-      ]
+      ],
+      "trained_at": "2026-11-27T16:36:31"
     },
     {
       "training_type": "raw_layout",
@@ -1783,9 +1619,49 @@
         "Design Sheet Typical Floor (V)"
       ],
       "trained_at": "2026-11-26T21:19:15"
+    },
+    {
+      "training_type": "raw_layout",
+      "project_title": "Narayani construction sec no :-28 plot no 357",
+      "filename": "Huliot BOQ Narayani construction -Aund  29.10.2026.xlsx",
+      "archetype": "combined",
+      "tower_count": 1,
+      "tower_names": [
+        "Typical Floor"
+      ],
+      "has_diversion": false,
+      "diversion_sheet_count": 0,
+      "has_rainwater": false,
+      "rainwater_sheet_count": 0,
+      "rainwater_sheet_names": [],
+      "options": [
+        {
+          "option": "HT Pro",
+          "formulas": {}
+        },
+        {
+          "option": "Hybrid",
+          "formulas": {}
+        },
+        {
+          "option": "Ultra Silent",
+          "formulas": {}
+        }
+      ],
+      "quantities": {
+        "toilets": 49,
+        "kitchens": 14
+      },
+      "floors_count": 7,
+      "baseline_discount": 0.35,
+      "sheetnames": [
+        "Typical Floor BOQ "
+      ],
+      "trained_at": "2026-11-27T16:16:46",
+      "floors_source": "column_header"
     }
   ],
-  "summary_count": 26,
+  "summary_count": 27,
   "domain_rules": {
     "inspection_pipe_is_fitting": true,
     "rule_explanation": "Huliot DIA.110mm / 75mm / 125mm Inspection Pipe is a FITTING (F), NOT a pipe (P). It receives the Fittings discount (=)."
